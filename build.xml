@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="SlevomatEET" default="build">
+
+	<property name="path.build" value="${project.basedir}/build"/>
+	<property name="path.build.properties" value="${path.build}/build.properties"/>
+
+	<property file="${path.build.properties}"/>
+
+	<target name="build" depends="check"/>
+
+	<target name="check" depends="check-phplint,check-phpcs,check-tests,check-phpstan"/>
+
+	<target name="check-phpcs">
+		<exec
+				executable="${path.phpcs.executable}"
+				logoutput="true"
+				passthru="true"
+				checkreturn="true"
+				>
+			<arg value="--standard=${path.build}"/>
+			<arg value="--extensions=php,phpt"/>
+			<arg value="--encoding=utf-8"/>
+			<arg value="--tab-width=4"/>
+			<arg value="-sp"/>
+			<arg path="${path.src}"/>
+			<arg path="${path.tests}"/>
+		</exec>
+	</target>
+
+	<target name="phpcs-fix">
+		<exec
+				executable="${path.phpcbf.executable}"
+				logoutput="true"
+				passthru="true"
+				checkreturn="true"
+		>
+			<arg value="--standard=${path.build}"/>
+			<arg value="--extensions=php,phpt"/>
+			<arg value="--encoding=utf-8"/>
+			<arg value="--tab-width=4"/>
+			<arg value="-sp"/>
+			<arg path="${path.src}"/>
+			<arg path="${path.tests}"/>
+		</exec>
+	</target>
+
+	<target name="check-phplint">
+		<exec
+				executable="${path.phplint.executable}"
+				logoutput="true"
+				passthru="true"
+				checkreturn="true"
+				>
+			<arg path="${path.src}"/>
+			<arg path="${path.tests}"/>
+		</exec>
+	</target>
+
+	<target name="check-tests">
+		<exec
+				executable="${path.phpunit.executable}"
+				logoutput="true"
+				passthru="true"
+				checkreturn="true"
+				>
+			<arg value="--configuration"/>
+			<arg value="${path.phpunit.configuration}"/>
+			<arg path="${path.tests}"/>
+		</exec>
+	</target>
+
+	<target name="check-phpstan">
+		<exec
+				executable="${path.phpstan.executable}"
+				logoutput="true"
+				passthru="true"
+				checkreturn="true"
+		>
+			<arg value="analyse"/>
+			<arg value="-c"/>
+			<arg path="${path.phpstan.configuration}"/>
+			<arg path="${path.src}"/>
+			<arg path="${path.tests}"/>
+		</exec>
+	</target>
+
+</project>
