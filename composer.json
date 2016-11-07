@@ -25,7 +25,8 @@
 		"slevomat/coding-standard": "^1.1",
 		"phing/phing": "^2.15",
 		"phpunit/phpunit": "^5.6",
-		"phpstan/phpstan": "^0.1.0"
+		"phpstan/phpstan": "^0.1.0",
+		"guzzlehttp/guzzle": "^6.2"
 	},
 	"autoload": {
 		"psr-4": {
@@ -36,6 +37,9 @@
 		"psr-4": {
 			"SlevomatEET\\": "tests/SlevomatEET"
 		}
+	},
+	"suggest": {
+		"guzzlehttp/guzzle": "For usage of bundled GuzzleSoapClientDriver"
 	},
 	"extra": {
 		"branch-alias": {

@@ -3,6 +3,7 @@
 namespace SlevomatEET;
 
 use SlevomatEET\Cryptography\CryptographyService;
+use SlevomatEET\Driver\SoapClientDriver;
 
 class ClientTest extends \PHPUnit\Framework\TestCase
 {
@@ -22,7 +23,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
 
 	public function testRequestFormatting()
 	{
-		$client = new Client($this->crypto, $this->configuration);
+		$client = new Client($this->crypto, $this->configuration, $this->createMock(SoapClientDriver::class));
 
 		$receipt = new Receipt(
 			true,

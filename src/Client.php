@@ -3,6 +3,8 @@
 namespace SlevomatEET;
 
 use SlevomatEET\Cryptography\CryptographyService;
+use SlevomatEET\Driver\DriverRequestFailedException;
+use SlevomatEET\Driver\SoapClientDriver;
 
 class Client
 {
@@ -16,10 +18,14 @@ class Client
 	/** @var \SlevomatEET\SoapClient|null */
 	private $soapClient;
 
-	public function __construct(CryptographyService $cryptographyService, Configuration $configuration)
+	/** @var \SlevomatEET\Driver\SoapClientDriver */
+	private $soapClientDriver;
+
+	public function __construct(CryptographyService $cryptographyService, Configuration $configuration, SoapClientDriver $soapClientDriver)
 	{
 		$this->cryptographyService = $cryptographyService;
 		$this->configuration = $configuration;
+		$this->soapClientDriver = $soapClientDriver;
 	}
 
 	public function send(Receipt $receipt): EvidenceResponse
@@ -81,6 +87,8 @@ class Client
 		];
 		try {
 			$response = $this->getSoapClient()->OdeslaniTrzby($request);
+		} catch (DriverRequestFailedException $e) {
+			throw new FailedRequestException($request, $e);
 		} catch (\SoapFault $e) {
 			throw new FailedRequestException($request, $e);
 		}
@@ -96,7 +104,7 @@ class Client
 	private function getSoapClient(): SoapClient
 	{
 		if ($this->soapClient === null) {
-			$this->soapClient = new SoapClient($this->configuration->getEvidenceEnvironment()->getWsdlPath(), $this->cryptographyService);
+			$this->soapClient = new SoapClient($this->configuration->getEvidenceEnvironment()->getWsdlPath(), $this->cryptographyService, $this->soapClientDriver);
 		}
 
 		return $this->soapClient;

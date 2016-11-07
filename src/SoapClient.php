@@ -3,6 +3,7 @@
 namespace SlevomatEET;
 
 use SlevomatEET\Cryptography\CryptographyService;
+use SlevomatEET\Driver\SoapClientDriver;
 
 class SoapClient extends \SoapClient
 {
@@ -10,7 +11,10 @@ class SoapClient extends \SoapClient
 	/** @var \SlevomatEET\Cryptography\CryptographyService */
 	private $cryptoService;
 
-	public function __construct(string $wsdl, CryptographyService $cryptoService)
+	/** @var \SlevomatEET\Driver\SoapClientDriver */
+	private $clientDriver;
+
+	public function __construct(string $wsdl, CryptographyService $cryptoService, SoapClientDriver $clientDriver)
 	{
 		$options = [
 			'soap_version' => SOAP_1_1,
@@ -18,13 +22,10 @@ class SoapClient extends \SoapClient
 			'trace' => true,
 			'exceptions' => true,
 			'cache_wsdl' => WSDL_CACHE_DISK,
-			'user_agent' => 'Slevomat EET client',
-			'keep_alive' => true,
-			'compression' => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP,
-			'connection_timeout' => 2,
 		];
 		parent::__construct($wsdl, $options);
 		$this->cryptoService = $cryptoService;
+		$this->clientDriver = $clientDriver;
 	}
 
 	/**
@@ -42,15 +43,17 @@ class SoapClient extends \SoapClient
 	 * @param string $action
 	 * @param int $version
 	 * @param int $oneWay
-	 * @return string
+	 * @return string|null
 	 */
 	public function __doRequest($request, $location, $action, $version, $oneWay = 0)
 	{
-		try {
-			return parent::__doRequest($this->cryptoService->addWSESignature($request), $location, $action, $version, $oneWay);
-		} catch (\SoapFault $e) {
-			throw $e;
+		$signedRequest = $this->cryptoService->addWSESignature($request);
+		$response = $this->clientDriver->send($signedRequest, $location, $action, $version);
+
+		if ($oneWay === 1) {
+			return null;
 		}
+		return $response;
 	}
 
 }
