@@ -26,7 +26,7 @@ class EvidenceRequestTest extends \PHPUnit\Framework\TestCase
 			true,
 			'CZ683555118',
 			'0/6460/ZQ42',
-			new \DateTimeImmutable('2016-11-01 00:30:12'),
+			new \DateTimeImmutable('2016-11-01 00:30:12', new \DateTimeZone('Europe/Prague')),
 			3411300
 		);
 
