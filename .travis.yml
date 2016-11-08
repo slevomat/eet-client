@@ -1,0 +1,27 @@
+language: php
+
+php:
+  - 7.0
+  - 7.1
+  - nightly
+
+env:
+  - # default environment without variables
+  - COMPOSER_DEPENDENCIES_OPTIONS="--prefer-lowest --prefer-stable"
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: nightly
+    - php: 7.1
+
+before_script:
+  - composer self-update
+
+script:
+  - composer update --no-interaction --prefer-source $COMPOSER_DEPENDENCIES_OPTIONS
+  - vendor/bin/phing
+
+after_script:
+  - if [[ $TRAVIS_PHP_VERSION = '7.0' && $COMPOSER_DEPENDENCIES_OPTIONS = '' ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [[ $TRAVIS_PHP_VERSION = '7.0' && $COMPOSER_DEPENDENCIES_OPTIONS = '' ]]; then php ocular.phar code-coverage:upload --format=php-clover build/log/clover.xml; fi

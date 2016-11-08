@@ -1,0 +1,92 @@
+coding_style:
+    php:
+        indentation:
+            general:
+                use_tabs: true
+        spaces:
+            before_parentheses:
+                closure_definition: true
+            around_operators:
+                concatenation: true
+        braces:
+            if:
+                opening: end-of-line
+            for:
+                opening: end-of-line
+            while:
+                opening: end-of-line
+            do_while:
+                opening: end-of-line
+            switch:
+                opening: end-of-line
+            try:
+                opening: end-of-line
+        upper_lower_casing:
+            keywords:
+                general: lower
+            constants:
+                true_false_null: lower
+
+checks:
+    php:
+        align_assignments: false
+        avoid_aliased_php_functions: true
+        avoid_closing_tag: true
+        avoid_fixme_comments: true
+        avoid_length_functions_in_loops: true
+        avoid_perl_style_comments: true
+        avoid_superglobals: true
+        avoid_todo_comments: true
+        avoid_usage_of_logical_operators: false
+        blank_line_after_namespace_declaration: false
+        check_method_contracts:
+          verify_documented_constraints: true
+          verify_interface_like_constraints: true
+          verify_parent_constraints: true
+        classes_in_camel_caps: true
+        encourage_shallow_comparison: false
+        encourage_single_quotes: true
+        function_in_camel_caps: true
+        more_specific_types_in_doc_comments: true
+        newline_at_end_of_file: true
+        no_commented_out_code: true
+        no_debug_code: true
+        no_error_suppression: false
+        no_exit: true
+        no_global_keyword: true
+        no_goto: true
+        no_short_open_tag: true
+        no_trailing_whitespace: true
+        no_underscore_prefix_in_methods: false
+        no_underscore_prefix_in_properties: false
+        non_commented_empty_catch_block: false
+        one_class_per_file: false
+        parameters_in_camelcaps: true
+        phpunit_assertions: true
+        prefer_while_loop_over_for_loop: true
+        properties_in_camelcaps: true
+        psr2_class_declaration: false
+        psr2_switch_declaration: false
+        require_scope_for_methods: false
+        require_scope_for_properties: false
+        return_doc_comments: true
+        side_effects_or_types: false
+        simplify_boolean_return: true
+        single_namespace_per_use: true
+        switch_fallthrough_commented: false
+        uppercase_constants: true
+        use_self_instead_of_fqcn: true
+        use_statement_alias_conflict: true
+        useless_calls: true
+        variable_existence: true
+        verify_access_scope_valid: true
+        verify_argument_usable_as_reference: true
+        verify_property_names: true
+
+filter:
+    excluded_paths:
+        - vendor/*
+        - tests/*/*Mock*
+
+tools:
+    external_code_coverage: true
