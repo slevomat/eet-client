@@ -23,7 +23,10 @@ class EvidenceResponse
 	/** @var \DateTimeImmutable */
 	private $responseTime;
 
-	public function __construct(\stdClass $rawData)
+	/** @var \SlevomatEET\EvidenceRequest */
+	private $evidenceRequest;
+
+	public function __construct(\stdClass $rawData, EvidenceRequest $evidenceRequest)
 	{
 		$this->rawData = $rawData;
 		$this->uuid = $rawData->Hlavicka->uuid_zpravy ?? null;
@@ -33,6 +36,7 @@ class EvidenceResponse
 		$this->bkp = $rawData->Hlavicka->bkp ?? null;
 		$this->test = $rawData->Potvrzeni->test ?? $rawData->Chyba->test ?? false;
 		$this->responseTime = \DateTimeImmutable::createFromFormat(\DateTime::ISO8601, $rawData->Hlavicka->dat_prij ?? $rawData->Hlavicka->dat_odmit);
+		$this->evidenceRequest = $evidenceRequest;
 	}
 
 	public function getFik(): string
@@ -78,6 +82,11 @@ class EvidenceResponse
 	public function getResponseTime(): \DateTimeImmutable
 	{
 		return $this->responseTime;
+	}
+
+	public function getRequest(): EvidenceRequest
+	{
+		return $this->evidenceRequest;
 	}
 
 }

@@ -1,0 +1,84 @@
+<?php declare(strict_types = 1);
+
+namespace SlevomatEET;
+
+use SlevomatEET\Cryptography\CryptographyService;
+
+class EvidenceRequestTest extends \PHPUnit\Framework\TestCase
+{
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject|\SlevomatEET\Cryptography\CryptographyService */
+	private $crypto;
+
+	/** @var \SlevomatEET\Configuration */
+	private $configuration;
+
+	public function setUp()
+	{
+		$this->crypto = $this->createMock(CryptographyService::class);
+
+		$this->configuration = new Configuration('CZ00000019', '273', '/5546/RO24', new EvidenceEnvironment(EvidenceEnvironment::PLAYGROUND), true);
+	}
+
+	public function testRequestFormatting()
+	{
+		$receipt = new Receipt(
+			true,
+			'CZ683555118',
+			'0/6460/ZQ42',
+			new \DateTimeImmutable('2016-11-01 00:30:12'),
+			3411300
+		);
+
+		$this->crypto->method('getPkpCode')
+			->willReturn('123');
+
+		$this->crypto->method('getBkpCode')
+			->willReturn('456');
+
+		$request = new EvidenceRequest($receipt, $this->configuration, $this->crypto);
+
+		$requestData = $request->getRequestData();
+
+		$this->assertArrayHasKey('Hlavicka', $requestData);
+		$this->assertArrayHasKey('Data', $requestData);
+		$this->assertArrayHasKey('KontrolniKody', $requestData);
+		$this->assertArrayHasKey('uuid_zpravy', $requestData['Hlavicka']);
+		$this->assertArrayHasKey('dat_odesl', $requestData['Hlavicka']);
+
+		unset($requestData['Hlavicka']['uuid_zpravy']);
+		unset($requestData['Hlavicka']['dat_odesl']);
+
+		$this->assertSame([
+			'prvni_zaslani' => true,
+			'overeni' => true,
+		], $requestData['Hlavicka']);
+
+		$this->assertSame([
+			'dic_popl' => 'CZ00000019',
+			'dic_poverujiciho' => 'CZ683555118',
+			'id_provoz' => '273',
+			'id_pokl' => '/5546/RO24',
+			'porad_cis' => '0/6460/ZQ42',
+			'dat_trzby' => '2016-11-01T00:30:12+01:00',
+			'celk_trzba' => '34113.00',
+			'rezim' => 0,
+		], $requestData['Data']);
+
+		$this->assertSame([
+			'pkp' => [
+				'_' => '123',
+				'digest' => 'SHA256',
+				'cipher' => 'RSA2048',
+				'encoding' => 'base64',
+			],
+			'bkp' => [
+				'_' => '456',
+				'digest' => 'SHA1',
+				'encoding' => 'base16',
+			],
+		], $requestData['KontrolniKody']);
+
+	}
+
+}

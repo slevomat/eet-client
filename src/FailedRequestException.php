@@ -5,16 +5,16 @@ namespace SlevomatEET;
 class FailedRequestException extends \Exception
 {
 
-	/** @var array */
+	/** @var \SlevomatEET\EvidenceRequest */
 	private $requestData;
 
-	public function __construct(array $requestData, \Throwable $previous)
+	public function __construct(EvidenceRequest $requestData, \Throwable $previous)
 	{
 		parent::__construct('Request error: ' . $previous->getMessage(), $previous->getCode(), $previous);
 		$this->requestData = $requestData;
 	}
 
-	public function getRequestData(): array
+	public function getRequestData(): EvidenceRequest
 	{
 		return $this->requestData;
 	}

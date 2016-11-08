@@ -41,41 +41,45 @@ $receipt = new Receipt(
     3411300
 );
 
-$response = $client->send($receipt);
-echo $response->getFik();
+try {
+    $response = $client->send($receipt);
+    echo $response->getFik();
+} catch (\SlevomatEET\FailedRequestException $e) {
+    echo $e->getRequest()->getPkpCode(); // if request fails you need to print the PKP and BKP codes to receipt 
+}
 ```
 
 ### Parametry účtenky
 
-| XML jméno (dokumentace EET) | Popis                                                                           | Umístění v klientu                      | Poznámka               | 
-|-----------------------------|---------------------------------------------------------------------------------|-----------------------------------------|------------------------| 
-| uuid_zpravy                 | UUID zprávy                                                                     | Receipt::$uuid                          | automaticky generováno | 
-| dat_odesl                   | Datum odeslání tržby                                                            | ??                                      | automaticky generováno | 
-| prvni_zaslani               | Příznak první zaslání                                                           | Receipt::$firstSend                     |                        | 
-| overeni                     | Příznak ověřovacího módu                                                        | Configuration::$verificationMode        | výchozí false          | 
-| dic_popl                    | DIČ poplatníka                                                                  | Configuration::$vatId                   |                        | 
-| dic_poverujiciho            | DIČ pověřujícího poplatníka                                                     | Receipt::$delegatedVatId                |                        | 
-| id_provoz                   | ID provozovny                                                                   | Configuration::$premiseId               |                        | 
-| id_pokl                     | ID pokladny                                                                     | Configuration::$cashRegisterId          |                        | 
-| porad_cis                   | Číslo účtenky                                                                   | Receipt::$receiptNumber                 |                        | 
-| dat_trzby                   | Datum uskutečnění tržby                                                         | Receipt::$receiptTime                   |                        | 
-| celk_trzba                  | Celková částka                                                                  | Receipt::$totalPrice                    |                        | 
-| zakl_nepodl_dph             | Celková částka plnění osvobozených od DPH, ostatních plnění                     | Receipt::$priceZeroVat                  |                        | 
-| zakl_dan1                   | Základ daně se základní sazbou DPH                                              | Receipt::$priceStandardVat              |                        | 
-| dan1                        | DPH se základní sazbou                                                          | Receipt::$vatStandard                   |                        | 
-| zakl_dan2                   | Základ daně s první zníženou sazbou                                             | Receipt::$priceFirstReducedVat          |                        | 
-| dan2                        | DPH s první sníženou saznou                                                     | Receipt::$vatFirstReduced               |                        | 
-| zakl_dan3                   | Základ daně s druhou sníženou sazbou                                            | Receipt::$priceSecondReducedVat         |                        | 
-| dan3                        | DPH s druhou sníženou sazbou                                                   | Receipt::$vatSecondReduced              |                        | 
-| cest_sluz                   | Celková částka v režimu DPH pro cestovní službu                                 | Receipt::$priceTravelService            |                        | 
-| pouzit_zboz1                | Celková částka v režimu DPH pro prodej použitého zboží se základní sazbou       | Receipt::$priceUsedGoodsStandardVat     |                        | 
-| pouzit_zboz2                | Celková částka v režimu DPH pro prodej použitého zboží s první sníženou sazbou  | Receipt::$priceUsedGoodsFirstReduced    |                        | 
-| pouzit_zboz3                | Celková částka v režimu DPH pro prodej použitého zboží s druhou sníženou sazbou | Receipt::$priceUsedGoodsSecondReduced   |                        | 
-| urceno_cerp_zuct            | Částka plateb určená k následnému čerpání nebo zúčtování                        | Receipt::$priceSubsequentSettlement     |                        | 
-| cerp_zuct                   | Částka plateb které jsou následným čerpáním nebo zúčtováním                     | Receipt::$priceUsedSubsequentSettlement |                        | 
-| rezim                       | Režim tržby                                                                     | Configuration::$evidenceMode            | výchozí bežný          | 
-| pkp                         | Podpisový kód poplatníka                                                        | ??                                      |                        | 
-| bkp                         | Bezpečnostní kód poplatníka                                                     | ??                                      |                        | 
+| XML jméno (dokumentace EET) | Popis                                                                           | Umístění v klientu                             | Poznámka               |
+|-----------------------------|---------------------------------------------------------------------------------|------------------------------------------------|------------------------|
+| uuid_zpravy                 | UUID zprávy                                                                     | `Receipt::$uuid`                               | automaticky generováno |
+| dat_odesl                   | Datum odeslání tržby                                                            | `$response->getRequest()->getSendTime()`       | automaticky generováno |
+| prvni_zaslani               | Příznak první zaslání                                                           | `Receipt::$firstSend`                          |                        |
+| overeni                     | Příznak ověřovacího módu                                                        | `Configuration::$verificationMode`             | výchozí false          |
+| dic_popl                    | DIČ poplatníka                                                                  | `Configuration::$vatId`                        |                        |
+| dic_poverujiciho            | DIČ pověřujícího poplatníka                                                     | `Receipt::$delegatedVatId`                     |                        |
+| id_provoz                   | ID provozovny                                                                   | `Configuration::$premiseId`                    |                        |
+| id_pokl                     | ID pokladny                                                                     | `Configuration::$cashRegisterId`               |                        |
+| porad_cis                   | Číslo účtenky                                                                   | `Receipt::$receiptNumber`                      |                        |
+| dat_trzby                   | Datum uskutečnění tržby                                                         | `Receipt::$receiptTime`                        |                        |
+| celk_trzba                  | Celková částka                                                                  | `Receipt::$totalPrice`                         |                        |
+| zakl_nepodl_dph             | Celková částka plnění osvobozených od DPH, ostatních plnění                     | `Receipt::$priceZeroVat`                       |                        |
+| zakl_dan1                   | Základ daně se základní sazbou DPH                                              | `Receipt::$priceStandardVat`                   |                        |
+| dan1                        | DPH se základní sazbou                                                          | `Receipt::$vatStandard`                        |                        |
+| zakl_dan2                   | Základ daně s první zníženou sazbou                                             | `Receipt::$priceFirstReducedVat`               |                        |
+| dan2                        | DPH s první sníženou saznou                                                     | `Receipt::$vatFirstReduced`                    |                        |
+| zakl_dan3                   | Základ daně s druhou sníženou sazbou                                            | `Receipt::$priceSecondReducedVat`              |                        |
+| dan3                        | DPH s druhou sníženou sazbou                                                    | `Receipt::$vatSecondReduced`                   |                        |
+| cest_sluz                   | Celková částka v režimu DPH pro cestovní službu                                 | `Receipt::$priceTravelService`                 |                        |
+| pouzit_zboz1                | Celková částka v režimu DPH pro prodej použitého zboží se základní sazbou       | `Receipt::$priceUsedGoodsStandardVat`          |                        |
+| pouzit_zboz2                | Celková částka v režimu DPH pro prodej použitého zboží s první sníženou sazbou  | `Receipt::$priceUsedGoodsFirstReduced`         |                        |
+| pouzit_zboz3                | Celková částka v režimu DPH pro prodej použitého zboží s druhou sníženou sazbou | `Receipt::$priceUsedGoodsSecondReduced`        |                        |
+| urceno_cerp_zuct            | Částka plateb určená k následnému čerpání nebo zúčtování                        | `Receipt::$priceSubsequentSettlement`          |                        |
+| cerp_zuct                   | Částka plateb které jsou následným čerpáním nebo zúčtováním                     | `Receipt::$priceUsedSubsequentSettlement`      |                        |
+| rezim                       | Režim tržby                                                                     | `Configuration::$evidenceMode`                 | výchozí bežný          |
+| pkp                         | Podpisový kód poplatníka                                                        | `$response->getRequest()->getPkpCode()`        |                        |
+| bkp                         | Bezpečnostní kód poplatníka                                                     | `$response->getRequest()->getBkpCode()`        |                        |
 
 ### Client driver
 
