@@ -6,7 +6,7 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/slevomat/eet-client.svg?style=flat-square)](https://packagist.org/packages/slevomat/eet-client)
 [![Composer Downloads](https://img.shields.io/packagist/dt/slevomat/eet-client.svg?style=flat-square)](https://packagist.org/packages/slevomat/eet-client)
 
-This repository provides a client library for electronic reford of sales (EET) required by czech law.
+This repository provides a client library for electronic record of sales (EET) required by czech law.
 Tento repozitář obsahuje klientskou knihovnu pro elektronickou evidenci tržeb (EET)
 
 - [EET website](http://www.etrzby.cz)
