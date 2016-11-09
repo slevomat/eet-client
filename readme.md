@@ -21,7 +21,7 @@ Nejlepší způsob jak slevomat/eet-client nainstalovat je pomocí [Composeru](h
 
 ## Použití
 
-**POZOR**: Všechny částky jsou uváděny v setinách měny. Tedy pokud chcete odeslat tržbu 55.5 Kč, vložíte do třídy `Receipt` hodnotu jako integer 5500.
+**POZOR**: Všechny částky jsou uváděny v setinách měny. Tedy pokud chcete odeslat tržbu 55.5 Kč, vložíte do třídy `Receipt` hodnotu jako integer 5550.
 ```php
 $crypto = new CryptographyService('cesta k privátnímu klíči', 'cesta k veřejnému klíči', 'heslo privátního klíče (nebo prázdný string pokud bez hesla)');
 $configuration = new Configuration(
