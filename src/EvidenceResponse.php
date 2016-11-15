@@ -5,7 +5,7 @@ namespace SlevomatEET;
 class EvidenceResponse
 {
 
-	/** @var array */
+	/** @var \stdClass */
 	private $rawData;
 
 	/** @var string|null */
@@ -48,7 +48,7 @@ class EvidenceResponse
 		return $this->fik;
 	}
 
-	public function getRawData(): array
+	public function getRawData(): \stdClass
 	{
 		return $this->rawData;
 	}
