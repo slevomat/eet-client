@@ -58,7 +58,44 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 		}
 	}
 
-	private function getReceiptData():array
+	public function testWSESignatureWithoutPrivateKeyPassword()
+	{
+		$request = $this->getRequestData();
+		$crypto = new CryptographyService(
+			__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.key',
+			__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.pub'
+		);
+
+		$this->assertNotEmpty($crypto->addWSESignature($request));
+	}
+
+	public function testWSESignatureWithPrivateKeyPassword()
+	{
+		$request = $this->getRequestData();
+		$crypto = new CryptographyService(
+			__DIR__ . '/../../../cert/EET_CA1_Playground_With_Password-CZ00000019.key',
+			__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.pub',
+			'eet'
+		);
+
+		$this->assertNotEmpty($crypto->addWSESignature($request));
+	}
+
+	public function testWSESignatureWithInvalidPrivateKeyPassword()
+	{
+		$request = $this->getRequestData();
+		$crypto = new CryptographyService(
+			__DIR__ . '/../../../cert/EET_CA1_Playground_With_Password-CZ00000019.key',
+			__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.pub',
+			'invalid'
+		);
+
+		$this->expectException(\PHPUnit_Framework_Error::class);
+		$this->expectExceptionMessage('openssl_sign(): supplied key param cannot be coerced into a private key');
+		$crypto->addWSESignature($request);
+	}
+
+	private function getReceiptData(): array
 	{
 		return [
 			'dic_popl' => 'CZ00000019',
@@ -68,6 +105,26 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 			'dat_trzby' => Formatter::formatDateTime(new \DateTimeImmutable('2016-08-05 00:30:12', new \DateTimeZone('Europe/Prague'))),
 			'celk_trzba' => Formatter::formatAmount(3411300),
 		];
+	}
+
+	private function getRequestData(): string
+	{
+		$requestTemplate = file_get_contents(__DIR__ . '/CZ00000019.fixture.3.1.xml');
+
+		$data = $this->getReceiptData();
+		$data += [
+			'pkp' => self::EXPECTED_PKP,
+			'bkp' => self::EXPECTED_BKP,
+		];
+
+		$patterns = array_map(function (string $dataKey): string{
+			return sprintf("~{%s}~", $dataKey);
+		}, array_keys($data));
+		$replacements = array_values($data);
+
+		$request = preg_replace($patterns, $replacements, $requestTemplate);
+
+		return $request;
 	}
 
 }

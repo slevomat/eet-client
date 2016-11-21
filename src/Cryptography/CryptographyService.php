@@ -63,6 +63,7 @@ class CryptographyService
 		$document = new \DOMDocument('1.0');
 		$document->loadXML($request);
 		$wse = new \RobRichards\WsePhp\WSSESoap($document);
+		$securityKey->passphrase = $this->privateKeyPassword;
 		$securityKey->loadKey($this->privateKeyFile, true);
 		$wse->addTimestamp();
 		$wse->signSoapDoc($securityKey, ['algorithm' => \RobRichards\XMLSecLibs\XMLSecurityDSig::SHA256]);

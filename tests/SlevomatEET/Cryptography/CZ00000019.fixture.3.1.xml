@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Body>
+		<Trzba xmlns="http://fs.mfcr.cz/eet/schema/v3">
+			<Hlavicka dat_odesl="{dat_trzby}" prvni_zaslani="true" uuid_zpravy="1a10c633-8c0b-4003-93cd-9987836b6d57"/>
+			<Data celk_trzba="{celk_trzba}"
+				  dat_trzby="{dat_trzby}"
+				  dic_popl="{dic_popl}"
+				  id_pokl="{id_pokl}"
+				  id_provoz="{id_provoz}"
+				  porad_cis="{porad_cis}"
+				  rezim="0"/>
+			<KontrolniKody>
+				<pkp cipher="RSA2048" digest="SHA256" encoding="base64">{pkp}</pkp>
+				<bkp digest="SHA1" encoding="base16">{bkp}</bkp>
+			</KontrolniKody>
+		</Trzba>
+	</soap:Body>
+</soap:Envelope>
