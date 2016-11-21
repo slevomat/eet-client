@@ -12,6 +12,30 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetCodes()
 	{
+		$data = $this->getMockData();
+		$crypto = new CryptographyService(__DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.key', __DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.pub');
+
+		$expectedPkp = base64_decode(self::EXPECTED_PKP);
+		$pkpCode = $crypto->getPkpCode($data);
+		self::assertSame($expectedPkp, $pkpCode);
+		self::assertSame(self::EXPECTED_BKP, $crypto->getBkpCode($pkpCode));
+	}
+
+	public function testWSESignature()
+	{
+		$data = $this->getMockData();
+		$request = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://fs.mfcr.cz/eet/schema/v3\"><SOAP-ENV:Body><ns1:Trzba><ns1:Hlavicka uuid_zpravy=\"1a10c633-8c0b-4003-93cd-9987836b6d57\" dat_odesl=\"{$data['celk_trzba']}\" prvni_zaslani=\"true\" overeni=\"false\"/><ns1:Data dic_popl=\"{$data['dic_popl']}\" id_provoz=\"{$data['id_provoz']}\" id_pokl=\"{$data['id_pokl']}\" porad_cis=\"{$data['porad_cis']}\" dat_trzby=\"{$data['dat_trzby']}\" celk_trzba=\"{$data['celk_trzba']}\" rezim=\"0\"/><ns1:KontrolniKody><ns1:pkp digest=\"SHA256\" cipher=\"RSA2048\" encoding=\"base64\">" . self::EXPECTED_PKP . "</ns1:pkp><ns1:bkp digest=\"SHA1\" encoding=\"base16\">" . self::EXPECTED_BKP . "</ns1:bkp></ns1:KontrolniKody></ns1:Trzba></SOAP-ENV:Body></SOAP-ENV:Envelope>";
+
+		$crypto = new CryptographyService(__DIR__ . '/../../cert/EET_CA1_Playground_With_Password-CZ00000019.key', __DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.pub', 'eet');
+		$this->assertNotEmpty($crypto->addWSESignature($request));
+
+		$crypto = new CryptographyService(__DIR__ . '/../../cert/EET_CA1_Playground_With_Password-CZ00000019.key', __DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.pub');
+		$this->expectException(\PHPUnit_Framework_Error::class);
+		$crypto->addWSESignature($request);
+	}
+
+	protected function getMockData()
+	{
 		$data = [
 			'dic_popl' => 'CZ00000019',
 			'id_provoz' => '273',
@@ -20,12 +44,7 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 			'dat_trzby' => Formatter::formatDateTime(new \DateTimeImmutable('2016-08-05 00:30:12', new \DateTimeZone('Europe/Prague'))),
 			'celk_trzba' => Formatter::formatAmount(3411300),
 		];
-		$crypto = new CryptographyService(__DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.key', __DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.pub');
-
-		$expectedPkp = base64_decode(self::EXPECTED_PKP);
-		$pkpCode = $crypto->getPkpCode($data);
-		self::assertSame($expectedPkp, $pkpCode);
-		self::assertSame(self::EXPECTED_BKP, $crypto->getBkpCode($pkpCode));
+		return $data;
 	}
 
 }
