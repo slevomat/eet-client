@@ -1,1 +1,5 @@
 parameters:
+	autoload_files:
+		- %rootDir%/../../../tests/SlevomatEET/Cryptography/OpenSslFunctionsMock.php
+	ignoreErrors:
+		- '~Access to an undefined property SlevomatEET\\ClientTest::\$soapClient~'

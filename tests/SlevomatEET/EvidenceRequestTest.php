@@ -43,16 +43,18 @@ class EvidenceRequestTest extends \PHPUnit\Framework\TestCase
 		$this->assertArrayHasKey('Hlavicka', $requestData);
 		$this->assertArrayHasKey('Data', $requestData);
 		$this->assertArrayHasKey('KontrolniKody', $requestData);
-		$this->assertArrayHasKey('uuid_zpravy', $requestData['Hlavicka']);
-		$this->assertArrayHasKey('dat_odesl', $requestData['Hlavicka']);
+		$headerData = $requestData['Hlavicka'];
+		$this->assertArrayHasKey('uuid_zpravy', $headerData);
+		$this->assertArrayHasKey('dat_odesl', $headerData);
 
-		unset($requestData['Hlavicka']['uuid_zpravy']);
-		unset($requestData['Hlavicka']['dat_odesl']);
+		$this->assertSame($headerData, $request->getHeader());
+		unset($headerData['uuid_zpravy']);
+		unset($headerData['dat_odesl']);
 
 		$this->assertSame([
 			'prvni_zaslani' => true,
 			'overeni' => true,
-		], $requestData['Hlavicka']);
+		], $headerData);
 
 		$this->assertSame([
 			'dic_popl' => 'CZ00000019',
@@ -64,6 +66,8 @@ class EvidenceRequestTest extends \PHPUnit\Framework\TestCase
 			'celk_trzba' => '34113.00',
 			'rezim' => 0,
 		], $requestData['Data']);
+
+		$this->assertSame($requestData['Data'], $request->getBody());
 
 		$this->assertSame([
 			'pkp' => [
@@ -78,6 +82,11 @@ class EvidenceRequestTest extends \PHPUnit\Framework\TestCase
 				'encoding' => 'base16',
 			],
 		], $requestData['KontrolniKody']);
+
+		$this->assertSame('123', $request->getPkpCode());
+		$this->assertSame('456', $request->getBkpCode());
+
+		$this->assertInstanceOf(\DateTimeImmutable::class, $request->getSendDate());
 
 	}
 

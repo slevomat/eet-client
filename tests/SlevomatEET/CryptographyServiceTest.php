@@ -3,6 +3,8 @@
 namespace SlevomatEET;
 
 use SlevomatEET\Cryptography\CryptographyService;
+use SlevomatEET\Cryptography\PrivateKeyFileException;
+use SlevomatEET\Cryptography\SigningFailedException;
 
 class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 {
@@ -12,7 +14,55 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 
 	public function testGetCodes()
 	{
-		$data = [
+		$data = $this->getReceiptData();
+		$crypto = new CryptographyService(__DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.key', __DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.pub');
+
+		$expectedPkp = base64_decode(self::EXPECTED_PKP);
+		$pkpCode = $crypto->getPkpCode($data);
+		self::assertSame($expectedPkp, $pkpCode);
+		self::assertSame(self::EXPECTED_BKP, $crypto->getBkpCode($pkpCode));
+	}
+
+	public function testExceptions()
+	{
+		$cryptoService = new CryptographyService(
+			__DIR__ . '/invalid-certificate.pem',
+			__DIR__ . '/invalid-certificate.pem'
+		);
+
+		try {
+			$cryptoService->getPkpCode($this->getReceiptData());
+			$this->fail();
+
+		} catch (PrivateKeyFileException $e) {
+			$this->assertSame(__DIR__ . '/invalid-certificate.pem', $e->getPrivateKeyFile());
+		}
+	}
+
+	/**
+	 * @runInSeparateProcess
+	 */
+	public function testExceptions2()
+	{
+		include __DIR__ . '/OpenSslFunctionsMock.php';
+
+		$cryptoService = new CryptographyService(
+			__DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.key',
+			__DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.pub'
+		);
+
+		try {
+			$cryptoService->getPkpCode($this->getReceiptData());
+			$this->fail();
+
+		} catch (SigningFailedException $e) {
+			$this->assertSame(array_values($this->getReceiptData()), $e->getData());
+		}
+	}
+
+	private function getReceiptData():array
+	{
+		return [
 			'dic_popl' => 'CZ00000019',
 			'id_provoz' => '273',
 			'id_pokl' => '/5546/RO24',
@@ -20,12 +70,6 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 			'dat_trzby' => Formatter::formatDateTime(new \DateTimeImmutable('2016-08-05 00:30:12', new \DateTimeZone('Europe/Prague'))),
 			'celk_trzba' => Formatter::formatAmount(3411300),
 		];
-		$crypto = new CryptographyService(__DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.key', __DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.pub');
-
-		$expectedPkp = base64_decode(self::EXPECTED_PKP);
-		$pkpCode = $crypto->getPkpCode($data);
-		self::assertSame($expectedPkp, $pkpCode);
-		self::assertSame(self::EXPECTED_BKP, $crypto->getBkpCode($pkpCode));
 	}
 
 }
