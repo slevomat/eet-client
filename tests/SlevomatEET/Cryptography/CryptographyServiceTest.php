@@ -1,10 +1,8 @@
 <?php declare(strict_types = 1);
 
-namespace SlevomatEET;
+namespace SlevomatEET\Cryptography;
 
-use SlevomatEET\Cryptography\CryptographyService;
-use SlevomatEET\Cryptography\PrivateKeyFileException;
-use SlevomatEET\Cryptography\SigningFailedException;
+use SlevomatEET\Formatter;
 
 class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 {
@@ -15,7 +13,7 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 	public function testGetCodes()
 	{
 		$data = $this->getReceiptData();
-		$crypto = new CryptographyService(__DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.key', __DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.pub');
+		$crypto = new CryptographyService(__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.key', __DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.pub');
 
 		$expectedPkp = base64_decode(self::EXPECTED_PKP);
 		$pkpCode = $crypto->getPkpCode($data);
@@ -47,8 +45,8 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 		include __DIR__ . '/OpenSslFunctionsMock.php';
 
 		$cryptoService = new CryptographyService(
-			__DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.key',
-			__DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.pub'
+			__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.key',
+			__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.pub'
 		);
 
 		try {
