@@ -114,7 +114,7 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 		$data = $this->getReceiptData();
 		$data += [
 			'pkp' => self::EXPECTED_PKP,
-			'bkp' => self::EXPECTED_BKP
+			'bkp' => self::EXPECTED_BKP,
 		];
 
 		$patterns = array_map(function ($dataKey) {
