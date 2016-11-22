@@ -8,7 +8,7 @@ class Receipt
 	/**
 	 * XML uuid_zpravy
 	 *
-	 * @var \Ramsey\Uuid\Uuid
+	 * @var \Ramsey\Uuid\UuidInterface
 	 */
 	private $uuid;
 
@@ -180,7 +180,7 @@ class Receipt
 		$this->priceUsedSubsequentSettlement = $priceUsedSubsequentSettlement;
 	}
 
-	public function getUuid(): \Ramsey\Uuid\Uuid
+	public function getUuid(): \Ramsey\Uuid\UuidInterface
 	{
 		return $this->uuid;
 	}
