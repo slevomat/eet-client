@@ -21,20 +21,33 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 		self::assertSame(self::EXPECTED_BKP, $crypto->getBkpCode($pkpCode));
 	}
 
-	public function testWSESignature()
+	public function testWSESignatureWithoutPrivateKeyPassword()
 	{
-		$data = $this->getMockData();
-		$request = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://fs.mfcr.cz/eet/schema/v3\"><SOAP-ENV:Body><ns1:Trzba><ns1:Hlavicka uuid_zpravy=\"1a10c633-8c0b-4003-93cd-9987836b6d57\" dat_odesl=\"{$data['celk_trzba']}\" prvni_zaslani=\"true\" overeni=\"false\"/><ns1:Data dic_popl=\"{$data['dic_popl']}\" id_provoz=\"{$data['id_provoz']}\" id_pokl=\"{$data['id_pokl']}\" porad_cis=\"{$data['porad_cis']}\" dat_trzby=\"{$data['dat_trzby']}\" celk_trzba=\"{$data['celk_trzba']}\" rezim=\"0\"/><ns1:KontrolniKody><ns1:pkp digest=\"SHA256\" cipher=\"RSA2048\" encoding=\"base64\">" . self::EXPECTED_PKP . "</ns1:pkp><ns1:bkp digest=\"SHA1\" encoding=\"base16\">" . self::EXPECTED_BKP . "</ns1:bkp></ns1:KontrolniKody></ns1:Trzba></SOAP-ENV:Body></SOAP-ENV:Envelope>";
+		$request = $this->getMockRequest();
+		$crypto = new CryptographyService(__DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.key', __DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.pub');
 
-		$crypto = new CryptographyService(__DIR__ . '/../../cert/EET_CA1_Playground_With_Password-CZ00000019.key', __DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.pub', 'eet');
 		$this->assertNotEmpty($crypto->addWSESignature($request));
+	}
 
-		$crypto = new CryptographyService(__DIR__ . '/../../cert/EET_CA1_Playground_With_Password-CZ00000019.key', __DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.pub');
+	public function testWSESignatureWithPrivateKeyPassword()
+	{
+		$request = $this->getMockRequest();
+		$crypto = new CryptographyService(__DIR__ . '/../../cert/EET_CA1_Playground_With_Password-CZ00000019.key', __DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.pub', 'eet');
+
+		$this->assertNotEmpty($crypto->addWSESignature($request));
+	}
+
+	public function testWSESignatureWithInvalidPrivateKeyPassword()
+	{
+		$request = $this->getMockRequest();
+		$crypto = new CryptographyService(__DIR__ . '/../../cert/EET_CA1_Playground_With_Password-CZ00000019.key', __DIR__ . '/../../cert/EET_CA1_Playground-CZ00000019.pub', 'invalid');
+
 		$this->expectException(\PHPUnit_Framework_Error::class);
+		$this->expectExceptionMessage('openssl_sign(): supplied key param cannot be coerced into a private key');
 		$crypto->addWSESignature($request);
 	}
 
-	protected function getMockData()
+	protected function getMockData(): array
 	{
 		$data = [
 			'dic_popl' => 'CZ00000019',
@@ -45,6 +58,26 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 			'celk_trzba' => Formatter::formatAmount(3411300),
 		];
 		return $data;
+	}
+
+	protected function getMockRequest(): string
+	{
+		$requestMock = file_get_contents(__DIR__ . '/Fixture/CZ00000019.fixture.3.1.xml');
+
+		$data = $this->getMockData();
+		$data += [
+			'pkp' => self::EXPECTED_PKP,
+			'bkp' => self::EXPECTED_BKP
+		];
+
+		$patterns = array_map(function ($dataKey) {
+			return "~{{$dataKey}}~";
+		}, array_keys($data));
+		$replacements = array_values($data);
+
+		$preparedRequestMock = preg_replace($patterns, $replacements, $requestMock);
+
+		return $preparedRequestMock;
 	}
 
 }
