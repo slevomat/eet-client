@@ -6,17 +6,17 @@ class FailedRequestException extends \Exception
 {
 
 	/** @var \SlevomatEET\EvidenceRequest */
-	private $requestData;
+	private $request;
 
-	public function __construct(EvidenceRequest $requestData, \Throwable $previous)
+	public function __construct(EvidenceRequest $request, \Throwable $previous)
 	{
 		parent::__construct('Request error: ' . $previous->getMessage(), $previous->getCode(), $previous);
-		$this->requestData = $requestData;
+		$this->request = $request;
 	}
 
-	public function getRequestData(): EvidenceRequest
+	public function getRequest(): EvidenceRequest
 	{
-		return $this->requestData;
+		return $this->request;
 	}
 
 }

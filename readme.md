@@ -45,7 +45,7 @@ try {
     $response = $client->send($receipt);
     echo $response->getFik();
 } catch (\SlevomatEET\FailedRequestException $e) {
-    echo $e->getRequestData()->getPkpCode(); // if request fails you need to print the PKP and BKP codes to receipt 
+    echo $e->getRequest()->getPkpCode(); // if request fails you need to print the PKP and BKP codes to receipt 
 } catch (\SlevomatEET\InvalidResponseReceivedException $e) {
     echo $e->getResponse()->getRequest()->getPkpCode(); // on invalid response you need to print the PKP and BKP too
 }

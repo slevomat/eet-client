@@ -139,7 +139,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
 			$client->send($receipt);
 			$this->fail('Expected exception was not thrown');
 		} catch (FailedRequestException $e) {
-			$request = $e->getRequestData();
+			$request = $e->getRequest();
 			$this->assertSame('', $request->getBkpCode());
 		}
 	}
