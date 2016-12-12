@@ -6,6 +6,7 @@ class GuzzleSoapClientDriver implements SoapClientDriver
 {
 
 	const DEFAULT_TIMEOUT = 2.5;
+	const HEADER_USER_AGENT = 'PHP';
 
 	/** @var \GuzzleHttp\Client */
 	private $httpClient;
@@ -26,10 +27,10 @@ class GuzzleSoapClientDriver implements SoapClientDriver
 	public function send(string $request, string $location, string $action, int $soapVersion): string
 	{
 		$headers = [
-			'User-Agent: PHP',
-			sprintf('Content-Type: %s; charset=utf-8', $soapVersion === 2 ? 'application/soap+xml' : 'text/xml'),
-			sprintf('SOAPAction: %s', $action),
-			sprintf('Content-Length: %s', strlen($request)),
+			'User-Agent' => self::HEADER_USER_AGENT,
+			'Content-Type' => sprintf('%s; charset=utf-8', $soapVersion === 2 ? 'application/soap+xml' : 'text/xml'),
+			'SOAPAction' => $action,
+			'Content-Length' => strlen($request),
 		];
 
 		$request = new \GuzzleHttp\Psr7\Request('POST', $location, $headers, $request);
