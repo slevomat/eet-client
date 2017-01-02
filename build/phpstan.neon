@@ -2,4 +2,6 @@ parameters:
 	autoload_files:
 		- %rootDir%/../../../tests/SlevomatEET/Cryptography/OpenSslFunctionsMock.php
 	ignoreErrors:
-		- '~Access to an undefined property SlevomatEET\\ClientTest::\$soapClient~'
+		- '#does not accept PHPUnit_Framework_MockObject_MockObject#'
+		- '#Cannot access property SlevomatEET\\Client::\$soapClient from current scope#'
+		- '#PHPUnit_Framework_MockObject_MockObject(?:\|(?:[\\a-zA-Z0-9_]+))* given#'

@@ -77,6 +77,8 @@
 				checkreturn="true"
 		>
 			<arg value="analyse"/>
+			<arg value="-l"/>
+			<arg value="5"/>
 			<arg value="-c"/>
 			<arg path="${path.phpstan.configuration}"/>
 			<arg path="${path.src}"/>
