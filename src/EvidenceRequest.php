@@ -7,6 +7,8 @@ use SlevomatEET\Cryptography\CryptographyService;
 class EvidenceRequest
 {
 
+	/** @var SoapClient*/
+	private $soapClient;
 	/** @var \DateTimeImmutable */
 	private $sendDate;
 
@@ -22,8 +24,9 @@ class EvidenceRequest
 	/** @var string */
 	private $bkpCode;
 
-	public function __construct(Receipt $receipt, Configuration $configuration, CryptographyService $cryptographyService)
+	public function __construct(SoapClient $soapClient, Receipt $receipt, Configuration $configuration, CryptographyService $cryptographyService)
 	{
+		$this->soapClient = $soapClient;
 		$this->sendDate = new \DateTimeImmutable();
 		$this->header = [
 			'uuid_zpravy' => $receipt->getUuid()->toString(),
@@ -109,4 +112,8 @@ class EvidenceRequest
 		return $this->bkpCode;
 	}
 
+	public function getXml()
+	{
+		return $this->soapClient->__getLastRequest();
+	}
 }

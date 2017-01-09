@@ -30,17 +30,18 @@ class Client
 
 	public function send(Receipt $receipt): EvidenceResponse
 	{
-		$request = new EvidenceRequest($receipt, $this->configuration, $this->cryptographyService);
+		$soapClient = $this->getSoapClient();
+		$request = new EvidenceRequest($soapClient, $receipt, $this->configuration, $this->cryptographyService);
 
 		try {
-			$response = $this->getSoapClient()->OdeslaniTrzby($request->getRequestData());
+			$response = $soapClient->OdeslaniTrzby($request->getRequestData());
 		} catch (DriverRequestFailedException $e) {
 			throw new FailedRequestException($request, $e);
 		} catch (\SoapFault $e) {
 			throw new FailedRequestException($request, $e);
 		}
 
-		$response = new EvidenceResponse($response, $request);
+		$response = new EvidenceResponse($soapClient, $response, $request);
 		if (!$response->isValid()) {
 			throw new InvalidResponseReceivedException($response);
 		}

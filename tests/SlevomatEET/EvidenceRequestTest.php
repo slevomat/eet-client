@@ -13,11 +13,14 @@ class EvidenceRequestTest extends \PHPUnit\Framework\TestCase
 	/** @var \SlevomatEET\Configuration */
 	private $configuration;
 
+	/** @var \PHPUnit_Framework_MockObject_MockObject|\SlevomatEET\SoapClient */
+	private $soapClient;
+
 	public function setUp()
 	{
 		$this->crypto = $this->createMock(CryptographyService::class);
-
 		$this->configuration = new Configuration('CZ00000019', '273', '/5546/RO24', new EvidenceEnvironment(EvidenceEnvironment::PLAYGROUND), true);
+		$this->soapClient = $this->createMock(SoapClient::class);
 	}
 
 	public function testRequestFormatting()
@@ -36,7 +39,10 @@ class EvidenceRequestTest extends \PHPUnit\Framework\TestCase
 		$this->crypto->method('getBkpCode')
 			->willReturn('456');
 
-		$request = new EvidenceRequest($receipt, $this->configuration, $this->crypto);
+		$this->soapClient->method('__getLastRequest')
+			->willReturn('<?xml');
+
+		$request = new EvidenceRequest($this->soapClient, $receipt, $this->configuration, $this->crypto);
 
 		$requestData = $request->getRequestData();
 
@@ -85,6 +91,7 @@ class EvidenceRequestTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertSame('123', $request->getPkpCode());
 		$this->assertSame('456', $request->getBkpCode());
+		$this->assertSame('<?xml', $request->getXml());
 
 		$this->assertInstanceOf(\DateTimeImmutable::class, $request->getSendDate());
 

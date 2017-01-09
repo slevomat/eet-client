@@ -5,6 +5,9 @@ namespace SlevomatEET;
 class EvidenceResponse
 {
 
+	/** @var SoapClient */
+	private $soapClient;
+
 	/** @var \stdClass */
 	private $rawData;
 
@@ -26,8 +29,9 @@ class EvidenceResponse
 	/** @var \SlevomatEET\EvidenceRequest */
 	private $evidenceRequest;
 
-	public function __construct(\stdClass $rawData, EvidenceRequest $evidenceRequest)
+	public function __construct(SoapClient $soapClient, \stdClass $rawData, EvidenceRequest $evidenceRequest)
 	{
+		$this->soapClient = $soapClient;
 		$this->rawData = $rawData;
 		$this->uuid = $rawData->Hlavicka->uuid_zpravy ?? null;
 		if (isset($rawData->Potvrzeni)) {
@@ -89,4 +93,8 @@ class EvidenceResponse
 		return $this->evidenceRequest;
 	}
 
+	public function getXml()
+	{
+		return $this->soapClient->__getLastResponse();
+	}
 }
