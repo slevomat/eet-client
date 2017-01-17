@@ -28,7 +28,7 @@ $configuration = new Configuration(
     'DIČ poplatníka',
     'Identifikace provozovny ',
     'Identifikace pokladního zařízení', 
-    new EvidenceEnvironment(EvidenceEnvironment::PLAYGROUND), // nebo  new EvidenceEnvironment(EvidenceEnvironment::PRODUCTION) pro komunikaci s produkčním systémem
+    EvidenceEnvironment::get(EvidenceEnvironment::PLAYGROUND), // nebo EvidenceEnvironment::get(EvidenceEnvironment::PRODUCTION) pro komunikaci s produkčním systémem
     false // zda zasílat účtenky v ověřovacím módu
 );
 $client = new Client($crypto, $configuration, new GuzzleSoapClientDriver(new \GuzzleHttp\Client()));

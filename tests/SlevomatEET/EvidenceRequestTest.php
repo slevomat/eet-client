@@ -17,7 +17,7 @@ class EvidenceRequestTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->crypto = $this->createMock(CryptographyService::class);
 
-		$this->configuration = new Configuration('CZ00000019', '273', '/5546/RO24', new EvidenceEnvironment(EvidenceEnvironment::PLAYGROUND), true);
+		$this->configuration = new Configuration('CZ00000019', '273', '/5546/RO24', EvidenceEnvironment::get(EvidenceEnvironment::PLAYGROUND), true);
 	}
 
 	public function testRequestFormatting()
