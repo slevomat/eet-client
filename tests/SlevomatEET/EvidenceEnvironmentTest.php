@@ -16,8 +16,8 @@ class EvidenceEnvironmentTest extends \PHPUnit\Framework\TestCase
 	public function dataTestGetWsdlPath(): array
 	{
 		return [
-			[new EvidenceEnvironment(EvidenceEnvironment::PLAYGROUND), 'EETServiceSOAP_playground.wsdl'],
-			[new EvidenceEnvironment(EvidenceEnvironment::PRODUCTION), 'EETServiceSOAP_production.wsdl'],
+			[EvidenceEnvironment::get(EvidenceEnvironment::PLAYGROUND), 'EETServiceSOAP_playground.wsdl'],
+			[EvidenceEnvironment::get(EvidenceEnvironment::PRODUCTION), 'EETServiceSOAP_production.wsdl'],
 		];
 	}
 

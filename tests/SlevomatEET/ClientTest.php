@@ -21,7 +21,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
 	public function setUp()
 	{
 		$this->cryptographyService = $this->createMock(CryptographyService::class);
-		$this->configuration = $configuration = new Configuration('CZ00000019', '273', '/5546/RO24', new EvidenceEnvironment(EvidenceEnvironment::PLAYGROUND), false);
+		$this->configuration = $configuration = new Configuration('CZ00000019', '273', '/5546/RO24', EvidenceEnvironment::get(EvidenceEnvironment::PLAYGROUND), false);
 		$this->soapClientDriver = $this->createMock(SoapClientDriver::class);
 	}
 

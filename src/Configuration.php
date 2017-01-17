@@ -28,7 +28,7 @@ class Configuration
 		$this->vatId = $vatId;
 		$this->premiseId = $premiseId;
 		$this->cashRegisterId = $cashRegisterId;
-		$this->evidenceMode = new EvidenceMode(EvidenceMode::REGULAR);
+		$this->evidenceMode = EvidenceMode::get(EvidenceMode::REGULAR);
 		$this->verificationMode = $verificationMode;
 		$this->evidenceEnvironment = $evidenceEnvironment;
 	}
