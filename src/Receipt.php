@@ -90,7 +90,7 @@ class Receipt
 	private $priceSecondReducedVat;
 
 	/**
- 	 * XML dan3
+	 * XML dan3
 	 *
 	 * @var int|null
 	 */

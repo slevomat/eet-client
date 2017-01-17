@@ -117,8 +117,8 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 			'bkp' => self::EXPECTED_BKP,
 		];
 
-		$patterns = array_map(function (string $dataKey): string{
-			return sprintf("~{%s}~", $dataKey);
+		$patterns = array_map(function (string $dataKey): string {
+			return sprintf('~{%s}~', $dataKey);
 		}, array_keys($data));
 		$replacements = array_values($data);
 

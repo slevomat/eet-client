@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <ruleset name="SlevomatEET">
+	<rule ref="vendor/consistence/coding-standard/Consistence/ruleset.xml">
+		<exclude name="Squiz.Commenting.FunctionComment.IncorrectParamVarName"/>
+	</rule>
 	<rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
 		<exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameAfterKeyword"/>
 		<exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions"/>
@@ -24,5 +27,17 @@
 			<property name="allowUseFromRootNamespace" value="false" />
 			<property name="namespacesRequiredToUse" type="array" value="SlevomatEET" />
 		</properties>
+	</rule>
+	<rule ref="Squiz.Commenting.FunctionComment">
+		<exclude-pattern>tests/</exclude-pattern><!-- @dataProvider etc. annotations trigger comments check -->
+	</rule>
+	<rule ref="Squiz.Functions.GlobalFunction.Found">
+		<exclude-pattern>tests/SlevomatEET/Cryptography/OpenSslFunctionsMock.php</exclude-pattern>
+	</rule>
+	<rule ref="Consistence.NamingConventions.ValidVariableName.NotCamelCaps">
+		<exclude-pattern>tests/SlevomatEET/Cryptography/OpenSslFunctionsMock.php</exclude-pattern>
+	</rule>
+	<rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
+		<exclude-pattern>src/SoapClient.php</exclude-pattern>
 	</rule>
 </ruleset>
