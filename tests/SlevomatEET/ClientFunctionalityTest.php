@@ -20,7 +20,8 @@ class ClientFunctionalityTest extends \PHPUnit\Framework\TestCase
 			$configuration,
 			new GuzzleSoapClientDriver(
 				new \GuzzleHttp\Client(
-					[\GuzzleHttp\RequestOptions::VERIFY => \Composer\CaBundle\CaBundle::getBundledCaBundlePath()])
+					[\GuzzleHttp\RequestOptions::VERIFY => \Composer\CaBundle\CaBundle::getBundledCaBundlePath()]
+				)
 			)
 		);
 

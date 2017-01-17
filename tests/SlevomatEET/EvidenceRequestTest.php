@@ -87,7 +87,6 @@ class EvidenceRequestTest extends \PHPUnit\Framework\TestCase
 		$this->assertSame('456', $request->getBkpCode());
 
 		$this->assertInstanceOf(\DateTimeImmutable::class, $request->getSendDate());
-
 	}
 
 }
