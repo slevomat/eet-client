@@ -85,7 +85,7 @@ try {
 
 ### Client driver
 
-Odeslání požadavku na servery EET z neprobíhá přímo přes SoapClient integrovaný v PHP, ale pomocí rozhraní `SoapClientDriver`. Hlavním důvodem je 
+Odeslání požadavku na servery EET neprobíhá přímo přes SoapClient integrovaný v PHP, ale pomocí rozhraní `SoapClientDriver`. Hlavním důvodem je 
 nemožnost nastavení timeoutu požadavků integrovaného SoapClienta. 
 
 Součástí knihovny je implentace rozhraní s pomocí [guzzlehttp/guzzle](https://packagist.org/packages/guzzlehttp/guzzle). Výchozí timeout této implementace 
