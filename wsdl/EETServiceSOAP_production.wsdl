@@ -39,10 +39,10 @@
 	<wsdl:service name="EETService">
 		<wsdl:port binding="tns:EETSOAP" name="EETServiceSOAP">
 			<!--
-			  Na nasledujicim radku je doplnena adresa "playground"
-			  1. "pg.eet.cz" domenove jmeno
+			  Na nasledujicim radku je doplnena adresa "production"
+			  1. "prod.eet.cz" domenove jmeno
 			  2. "443" cislo portu
-			  Tato adresa plati pouze pro neprodukcni prostredi!
+			  Tato adresa plati pro produkcni prostredi!
 			-->
 			<soap:address location="https://prod.eet.cz/eet/services/EETServiceSOAP/v3"/>
 		</wsdl:port>
