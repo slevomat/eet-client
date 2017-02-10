@@ -90,7 +90,7 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 			'invalid'
 		);
 
-		$this->expectException(\PHPUnit_Framework_Error::class);
+		$this->expectException(\PHPUnit\Framework\Error\Error::class);
 		$this->expectExceptionMessage('openssl_sign(): supplied key param cannot be coerced into a private key');
 		$crypto->addWSESignature($request);
 	}
