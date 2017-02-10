@@ -115,14 +115,14 @@ class Receipt
 	 *
 	 * @var int|null
 	 */
-	private $priceUsedGoodsFirstReduced;
+	private $priceUsedGoodsFirstReducedVat;
 
 	/**
 	 * XML pouzit_zboz3
 	 *
 	 * @var int|null
 	 */
-	private $priceUsedGoodsSecondReduced;
+	private $priceUsedGoodsSecondReducedVat;
 
 	/**
 	 * XML urceno_cerp_zuct
@@ -153,8 +153,8 @@ class Receipt
 		int $vatSecondReduced = null,
 		int $priceTravelService = null,
 		int $priceUsedGoodsStandardVat = null,
-		int $priceUsedGoodsFirstReduced = null,
-		int $priceUsedGoodsSecondReduced = null,
+		int $priceUsedGoodsFirstReducedVat = null,
+		int $priceUsedGoodsSecondReducedVat = null,
 		int $priceSubsequentSettlement = null,
 		int $priceUsedSubsequentSettlement = null
 	)
@@ -174,8 +174,8 @@ class Receipt
 		$this->vatSecondReduced = $vatSecondReduced;
 		$this->priceTravelService = $priceTravelService;
 		$this->priceUsedGoodsStandardVat = $priceUsedGoodsStandardVat;
-		$this->priceUsedGoodsFirstReduced = $priceUsedGoodsFirstReduced;
-		$this->priceUsedGoodsSecondReduced = $priceUsedGoodsSecondReduced;
+		$this->priceUsedGoodsFirstReducedVat = $priceUsedGoodsFirstReducedVat;
+		$this->priceUsedGoodsSecondReducedVat = $priceUsedGoodsSecondReducedVat;
 		$this->priceForSubsequentSettlement = $priceSubsequentSettlement;
 		$this->priceUsedSubsequentSettlement = $priceUsedSubsequentSettlement;
 	}
@@ -288,17 +288,17 @@ class Receipt
 	/**
 	 * @return int|null
 	 */
-	public function getPriceUsedGoodsFirstReduced()
+	public function getPriceUsedGoodsFirstReducedVat()
 	{
-		return $this->priceUsedGoodsFirstReduced;
+		return $this->priceUsedGoodsFirstReducedVat;
 	}
 
 	/**
 	 * @return int|null
 	 */
-	public function getPriceUsedGoodsSecondReduced()
+	public function getPriceUsedGoodsSecondReducedVat()
 	{
-		return $this->priceUsedGoodsSecondReduced;
+		return $this->priceUsedGoodsSecondReducedVat;
 	}
 
 	/**
