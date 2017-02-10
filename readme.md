@@ -75,8 +75,8 @@ try {
 | dan3                        | DPH s druhou sníženou sazbou                                                    | `Receipt::$vatSecondReduced`                   |                        |
 | cest_sluz                   | Celková částka v režimu DPH pro cestovní službu                                 | `Receipt::$priceTravelService`                 |                        |
 | pouzit_zboz1                | Celková částka v režimu DPH pro prodej použitého zboží se základní sazbou       | `Receipt::$priceUsedGoodsStandardVat`          |                        |
-| pouzit_zboz2                | Celková částka v režimu DPH pro prodej použitého zboží s první sníženou sazbou  | `Receipt::$priceUsedGoodsFirstReduced`         |                        |
-| pouzit_zboz3                | Celková částka v režimu DPH pro prodej použitého zboží s druhou sníženou sazbou | `Receipt::$priceUsedGoodsSecondReduced`        |                        |
+| pouzit_zboz2                | Celková částka v režimu DPH pro prodej použitého zboží s první sníženou sazbou  | `Receipt::$priceUsedGoodsFirstReducedVat`      |                        |
+| pouzit_zboz3                | Celková částka v režimu DPH pro prodej použitého zboží s druhou sníženou sazbou | `Receipt::$priceUsedGoodsSecondReducedVat`     |                        |
 | urceno_cerp_zuct            | Částka plateb určená k následnému čerpání nebo zúčtování                        | `Receipt::$priceSubsequentSettlement`          |                        |
 | cerp_zuct                   | Částka plateb které jsou následným čerpáním nebo zúčtováním                     | `Receipt::$priceUsedSubsequentSettlement`      |                        |
 | rezim                       | Režim tržby                                                                     | `Configuration::$evidenceMode`                 | výchozí bežný          |
