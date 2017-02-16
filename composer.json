@@ -17,7 +17,7 @@
 		"ext-openssl": "*",
 		"ext-soap": "*",
 		"php": "^7.0",
-		"consistence/consistence": "^0.20.0",
+		"consistence/consistence": "~0.20",
 		"robrichards/wse-php": "^2.0",
 		"ramsey/uuid": "^3.5"
 	},
