@@ -1,6 +1,7 @@
 # Client for EET - Elektronická evidence tržeb
 
 [![Build Status](https://img.shields.io/travis/slevomat/eet-client/master.svg?style=flat-square)](https://travis-ci.org/slevomat/eet-client)
+[![Build status](https://img.shields.io/appveyor/ci/slevomat/eet-client/master.svg?style=flat-square)](https://ci.appveyor.com/project/slevomat/eet-client/branch/master)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/slevomat/eet-client.svg?style=flat-square)](https://scrutinizer-ci.com/g/slevomat/eet-client/?branch=master)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/slevomat/eet-client.svg?style=flat-square)](https://scrutinizer-ci.com/g/slevomat/eet-client/?branch=master)
 [![Latest Stable Version](https://img.shields.io/packagist/v/slevomat/eet-client.svg?style=flat-square)](https://packagist.org/packages/slevomat/eet-client)
@@ -27,14 +28,14 @@ $crypto = new CryptographyService('cesta k privátnímu klíči', 'cesta k veře
 $configuration = new Configuration(
     'DIČ poplatníka',
     'Identifikace provozovny ',
-    'Identifikace pokladního zařízení', 
+    'Identifikace pokladního zařízení',
     EvidenceEnvironment::get(EvidenceEnvironment::PLAYGROUND), // nebo EvidenceEnvironment::get(EvidenceEnvironment::PRODUCTION) pro komunikaci s produkčním systémem
     false // zda zasílat účtenky v ověřovacím módu
 );
 $client = new Client($crypto, $configuration, new GuzzleSoapClientDriver(new \GuzzleHttp\Client()));
 
 $receipt = new Receipt(
-	true, 
+	true,
 	'CZ683555118',
 	'0/6460/ZQ42',
 	new \DateTimeImmutable('2016-11-01 00:30:12'),
@@ -45,7 +46,7 @@ try {
     $response = $client->send($receipt);
     echo $response->getFik();
 } catch (\SlevomatEET\FailedRequestException $e) {
-    echo $e->getRequest()->getPkpCode(); // if request fails you need to print the PKP and BKP codes to receipt 
+    echo $e->getRequest()->getPkpCode(); // if request fails you need to print the PKP and BKP codes to receipt
 } catch (\SlevomatEET\InvalidResponseReceivedException $e) {
     echo $e->getResponse()->getRequest()->getPkpCode(); // on invalid response you need to print the PKP and BKP too
 }
@@ -85,8 +86,8 @@ try {
 
 ### Client driver
 
-Odeslání požadavku na servery EET neprobíhá přímo přes SoapClient integrovaný v PHP, ale pomocí rozhraní `SoapClientDriver`. Hlavním důvodem je 
-nemožnost nastavení timeoutu požadavků integrovaného SoapClienta. 
+Odeslání požadavku na servery EET neprobíhá přímo přes SoapClient integrovaný v PHP, ale pomocí rozhraní `SoapClientDriver`. Hlavním důvodem je
+nemožnost nastavení timeoutu požadavků integrovaného SoapClienta.
 
-Součástí knihovny je implentace rozhraní s pomocí [guzzlehttp/guzzle](https://packagist.org/packages/guzzlehttp/guzzle). Výchozí timeout této implementace 
+Součástí knihovny je implentace rozhraní s pomocí [guzzlehttp/guzzle](https://packagist.org/packages/guzzlehttp/guzzle). Výchozí timeout této implementace
 je 2.5 sekundy, nastavitelný parametrem konstruktoru.
