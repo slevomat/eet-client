@@ -316,5 +316,15 @@ class Receipt
 	{
 		return $this->priceUsedSubsequentSettlement;
 	}
+	
+	/**
+	 * @return $this
+	 */
+	public function setFirstSend(bool $firstSend)
+	{
+		$this->firstSend = $firstSend;
+		
+		return $this;
+	}
 
 }
