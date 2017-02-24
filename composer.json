@@ -19,6 +19,7 @@
 		"php": "^7.0",
 		"consistence/consistence": "^0.20.0",
 		"robrichards/wse-php": "^2.0",
+		"guzzlehttp/guzzle": "^6.2",
 		"ramsey/uuid": "^3.5"
 	},
 	"require-dev": {
@@ -27,7 +28,6 @@
 		"phing/phing": "^2.15",
 		"phpunit/phpunit": "^6.0.6",
 		"phpstan/phpstan": "^0.6.3",
-		"guzzlehttp/guzzle": "^6.2",
 		"composer/ca-bundle": "^1.0"
 	},
 	"autoload": {
