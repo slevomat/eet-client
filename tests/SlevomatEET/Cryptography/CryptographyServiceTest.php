@@ -29,6 +29,32 @@ class CryptographyServiceTest extends TestCase
 		self::assertSame(self::EXPECTED_BKP, $crypto->getBkpCode($pkpCode));
 	}
 
+	/**
+	 * @dataProvider provideInvalidKeyPaths
+	 *
+	 * @param string $privateKeyPath
+	 * @param string $publicKeyPath
+	 * @param string $expectedExceptionType
+	 *
+	 * @phpstan-param class-string<\Throwable> $expectedExceptionType
+	 */
+	public function testInvalidKeyPaths(string $privateKeyPath, string $publicKeyPath, string $expectedExceptionType): void
+	{
+		$this->expectException($expectedExceptionType);
+		new CryptographyService($privateKeyPath, $publicKeyPath);
+	}
+
+	/**
+	 * @return array[]
+	 */
+	public function provideInvalidKeyPaths(): array
+	{
+		return [
+			[self::PRIVATE_KEY_WITHOUT_PASSWORD_PATH, './foo/path', PublicKeyFileNotFoundException::class],
+			['./foo/path', self::PUBLIC_KEY_PATH, PrivateKeyFileNotFoundException::class],
+		];
+	}
+
 	public function testInvalidPrivateKeyInPkpCalculation(): void
 	{
 		$cryptoService = new CryptographyService(

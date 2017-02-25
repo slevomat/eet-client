@@ -7,6 +7,7 @@ use RobRichards\WsePhp\WSSESoap;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use RobRichards\XMLSecLibs\XMLSecurityKey;
 use const OPENSSL_ALGO_SHA256;
+use function is_file;
 
 class CryptographyService
 {
@@ -22,6 +23,12 @@ class CryptographyService
 
 	public function __construct(string $privateKeyFile, string $publicKeyFile, string $privateKeyPassword = '')
 	{
+		if (!is_file($privateKeyFile)) {
+			throw new PrivateKeyFileNotFoundException($privateKeyFile);
+		}
+		if (!is_file($publicKeyFile)) {
+			throw new PublicKeyFileNotFoundException($publicKeyFile);
+		}
 		$this->privateKeyFile = $privateKeyFile;
 		$this->publicKeyFile = $publicKeyFile;
 		$this->privateKeyPassword = $privateKeyPassword;
