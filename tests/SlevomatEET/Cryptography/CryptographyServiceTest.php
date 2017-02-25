@@ -12,6 +12,7 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 	const PRIVATE_KEY_WITHOUT_PASSWORD_PATH = __DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.key';
 	const PRIVATE_KEY_WITH_PASSWORD_PATH = __DIR__ . '/../../../cert/EET_CA1_Playground_With_Password-CZ00000019.key';
 	const PUBLIC_KEY_PATH = __DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.pub';
+	const INVALID_KEY_PATH = __DIR__ . '/invalid-certificate.pem';
 
 	public function testGetCodes()
 	{
@@ -53,7 +54,7 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 	public function testInvalidPrivateKeyInPkpCalculation()
 	{
 		$cryptoService = new CryptographyService(
-			__DIR__ . '/invalid-certificate.pem',
+			self::INVALID_KEY_PATH,
 			self::PUBLIC_KEY_PATH
 		);
 
@@ -62,7 +63,7 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 			$this->fail();
 
 		} catch (PrivateKeyFileException $e) {
-			$this->assertSame(__DIR__ . '/invalid-certificate.pem', $e->getPrivateKeyFile());
+			$this->assertSame(self::INVALID_KEY_PATH, $e->getPrivateKeyFile());
 		}
 	}
 
