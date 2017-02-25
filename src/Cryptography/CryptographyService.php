@@ -21,6 +21,9 @@ class CryptographyService
 	/** @var string */
 	private $publicKeyFile;
 
+	/** @var bool */
+	private $publicKeyVerified;
+
 	public function __construct(string $privateKeyFile, string $publicKeyFile, string $privateKeyPassword = '')
 	{
 		if (!is_file($privateKeyFile)) {
@@ -76,6 +79,8 @@ class CryptographyService
 
 	public function addWSESignature(string $request): string
 	{
+		$publicKey = (string) file_get_contents($this->publicKeyFile);
+		$this->verifyPublicKey($publicKey);
 		$securityKey = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, ['type' => 'private']);
 		$document = new DOMDocument('1.0');
 		$document->loadXML($request);
@@ -84,10 +89,23 @@ class CryptographyService
 		$securityKey->loadKey($this->privateKeyFile, true);
 		$wse->addTimestamp();
 		$wse->signSoapDoc($securityKey, ['algorithm' => XMLSecurityDSig::SHA256]);
-		$binaryToken = $wse->addBinaryToken(file_get_contents($this->publicKeyFile));
+		$binaryToken = $wse->addBinaryToken($publicKey);
 		$wse->attachTokentoSig($binaryToken);
 
 		return $wse->saveXML();
+	}
+
+	private function verifyPublicKey(string $fileContents): void
+	{
+		if ($this->publicKeyVerified) {
+			return;
+		}
+		$publicKeyResource = openssl_get_publickey($fileContents);
+		if ($publicKeyResource === false) {
+			throw new InvalidPublicKeyException($this->publicKeyFile, (string) openssl_error_string());
+		}
+		openssl_free_key($publicKeyResource);
+		$this->publicKeyVerified = true;
 	}
 
 }

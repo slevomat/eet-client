@@ -116,6 +116,18 @@ class CryptographyServiceTest extends TestCase
 		$crypto->addWSESignature($request);
 	}
 
+	public function testWSESignatureWithInvalidPublicKey(): void
+	{
+		$request = $this->getRequestData();
+		$crypto = new CryptographyService(
+			self::PRIVATE_KEY_WITHOUT_PASSWORD_PATH,
+			self::INVALID_KEY_PATH
+		);
+
+		$this->expectException(InvalidPublicKeyException::class);
+		$crypto->addWSESignature($request);
+	}
+
 	/**
 	 * @return mixed[]
 	 */
