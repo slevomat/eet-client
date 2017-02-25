@@ -24,11 +24,11 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 		self::assertSame(self::EXPECTED_BKP, $crypto->getBkpCode($pkpCode));
 	}
 
-	public function testExceptions()
+	public function testInvalidPrivateKeyInPkpCalculation()
 	{
 		$cryptoService = new CryptographyService(
 			__DIR__ . '/invalid-certificate.pem',
-			__DIR__ . '/invalid-certificate.pem'
+			self::PUBLIC_KEY_PATH
 		);
 
 		try {
