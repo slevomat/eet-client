@@ -24,6 +24,32 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 		self::assertSame(self::EXPECTED_BKP, $crypto->getBkpCode($pkpCode));
 	}
 
+	/**
+	 * @dataProvider provideInvalidKeyPaths
+	 */
+	public function testInvalidKeyPaths(string $privateKeyPath, string $publicKeyPath, string $expectedExceptionType)
+	{
+		try {
+			new CryptographyService($privateKeyPath, $publicKeyPath);
+			$this->fail('Exception ' . $expectedExceptionType . ' expected');
+		} catch (\PHPUnit\Framework\AssertionFailedError $exception) {
+			throw $exception;
+		} catch (\Throwable $exception) {
+			$this->assertInstanceOf($expectedExceptionType, $exception);
+		}
+	}
+
+	/**
+	 * @return array[]
+	 */
+	public function provideInvalidKeyPaths(): array
+	{
+		return [
+			[self::PRIVATE_KEY_WITHOUT_PASSWORD_PATH, './foo/path', PublicKeyFileNotFoundException::class],
+			['./foo/path', self::PUBLIC_KEY_PATH, PrivateKeyFileNotFoundException::class],
+		];
+	}
+
 	public function testInvalidPrivateKeyInPkpCalculation()
 	{
 		$cryptoService = new CryptographyService(

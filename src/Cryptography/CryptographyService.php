@@ -16,6 +16,12 @@ class CryptographyService
 
 	public function __construct(string $privateKeyFile, string $publicKeyFile, string $privateKeyPassword = '')
 	{
+		if (!file_exists($privateKeyFile)) {
+			throw new PrivateKeyFileNotFoundException($privateKeyFile);
+		}
+		if (!file_exists($publicKeyFile)) {
+			throw new PublicKeyFileNotFoundException($publicKeyFile);
+		}
 		$this->privateKeyFile = $privateKeyFile;
 		$this->publicKeyFile = $publicKeyFile;
 		$this->privateKeyPassword = $privateKeyPassword;
