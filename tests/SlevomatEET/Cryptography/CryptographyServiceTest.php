@@ -14,11 +14,14 @@ class CryptographyServiceTest extends TestCase
 
 	private const EXPECTED_PKP = 'hdBqjqCTaEfJ6JI06H+c4OLvRGtntcwLlG0fucEkla++g9RLxP55jYlPLFf6Sdpm5jPC+hpBHry98zsPBlbwkcFiWdmgT2VBCtXxrwfRmJQOHNRdWhItDsHC4p45G+KmtC4uJCFAqFNL+E999wevPaS6Q02WktmvWI5+XUZnN75hR+G94oznpJS8T140850/FsYDlvPw0ZVWJwDMBzVrOWWxPSN3SBwa40TjD3dVIMlMC1Bo0NccnFp0y7GxNMSfIzDhF5R4S2Rmawe85znZ0PiHXMkPDhXLLpPx1pNiMsTwfeoEnhEMSU/PjjmLpbUzaRfLwZzgf+7Bl0ZX+/lsqA==';
 	private const EXPECTED_BKP = 'F049C3F1-165CDCDA-2E35BC3A-FCB5C660-4B84D0B7';
+	private const PRIVATE_KEY_WITHOUT_PASSWORD_PATH = __DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.key';
+	private const PRIVATE_KEY_WITH_PASSWORD_PATH = __DIR__ . '/../../../cert/EET_CA1_Playground_With_Password-CZ00000019.key';
+	private const PUBLIC_KEY_PATH = __DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.pub';
 
 	public function testGetCodes(): void
 	{
 		$data = $this->getReceiptData();
-		$crypto = new CryptographyService(__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.key', __DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.pub');
+		$crypto = $this->createCryptographyServiceWithoutPassword();
 
 		$expectedPkp = self::EXPECTED_PKP;
 		$pkpCode = $crypto->getPkpCode($data);
@@ -49,10 +52,7 @@ class CryptographyServiceTest extends TestCase
 	{
 		include __DIR__ . '/OpenSslFunctionsMock.php';
 
-		$cryptoService = new CryptographyService(
-			__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.key',
-			__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.pub'
-		);
+		$cryptoService = $this->createCryptographyServiceWithoutPassword();
 
 		try {
 			$cryptoService->getPkpCode($this->getReceiptData());
@@ -66,10 +66,7 @@ class CryptographyServiceTest extends TestCase
 	public function testWSESignatureWithoutPrivateKeyPassword(): void
 	{
 		$request = $this->getRequestData();
-		$crypto = new CryptographyService(
-			__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.key',
-			__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.pub'
-		);
+		$crypto = $this->createCryptographyServiceWithoutPassword();
 
 		$this->assertNotEmpty($crypto->addWSESignature($request));
 	}
@@ -77,11 +74,7 @@ class CryptographyServiceTest extends TestCase
 	public function testWSESignatureWithPrivateKeyPassword(): void
 	{
 		$request = $this->getRequestData();
-		$crypto = new CryptographyService(
-			__DIR__ . '/../../../cert/EET_CA1_Playground_With_Password-CZ00000019.key',
-			__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.pub',
-			'eet'
-		);
+		$crypto = $this->createCryptographyServiceWithPassword('eet');
 
 		$this->assertNotEmpty($crypto->addWSESignature($request));
 	}
@@ -89,11 +82,7 @@ class CryptographyServiceTest extends TestCase
 	public function testWSESignatureWithInvalidPrivateKeyPassword(): void
 	{
 		$request = $this->getRequestData();
-		$crypto = new CryptographyService(
-			__DIR__ . '/../../../cert/EET_CA1_Playground_With_Password-CZ00000019.key',
-			__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.pub',
-			'invalid'
-		);
+		$crypto = $this->createCryptographyServiceWithPassword('invalid');
 
 		$this->expectException(Error::class);
 		$this->expectExceptionMessage('openssl_sign(): supplied key param cannot be coerced into a private key');
@@ -131,6 +120,20 @@ class CryptographyServiceTest extends TestCase
 		$replacements = array_values($data);
 
 		return (string) preg_replace($patterns, $replacements, $requestTemplate);
+	}
+
+	private function createCryptographyServiceWithoutPassword(): CryptographyService
+	{
+		return new CryptographyService(self::PRIVATE_KEY_WITHOUT_PASSWORD_PATH, self::PUBLIC_KEY_PATH);
+	}
+
+	private function createCryptographyServiceWithPassword(string $password): CryptographyService
+	{
+		return new CryptographyService(
+			self::PRIVATE_KEY_WITH_PASSWORD_PATH,
+			self::PUBLIC_KEY_PATH,
+			$password
+		);
 	}
 
 }
