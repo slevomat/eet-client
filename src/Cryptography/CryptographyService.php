@@ -65,6 +65,7 @@ class CryptographyService
 
 	public function addWSESignature(string $request): string
 	{
+		$this->tryLoadPublicKey();
 		$securityKey = new \RobRichards\XMLSecLibs\XMLSecurityKey(\RobRichards\XMLSecLibs\XMLSecurityKey::RSA_SHA256, ['type' => 'private']);
 		$document = new \DOMDocument('1.0');
 		$document->loadXML($request);
@@ -77,6 +78,15 @@ class CryptographyService
 		$wse->attachTokentoSig($binaryToken);
 
 		return $wse->saveXML();
+	}
+
+	private function tryLoadPublicKey()
+	{
+		$publicKeyResource = openssl_get_publickey(file_get_contents($this->publicKeyFile));
+		if ($publicKeyResource === false) {
+			throw new PublicKeyFileException($this->publicKeyFile);
+		}
+		openssl_free_key($publicKeyResource);
 	}
 
 }

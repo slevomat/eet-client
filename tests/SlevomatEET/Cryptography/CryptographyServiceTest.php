@@ -111,6 +111,22 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 		$crypto->addWSESignature($request);
 	}
 
+	public function testWSESignatureWithInvalidPublicKey()
+	{
+		$request = $this->getRequestData();
+		$crypto = new CryptographyService(
+			self::PRIVATE_KEY_WITHOUT_PASSWORD_PATH,
+			self::INVALID_KEY_PATH
+		);
+
+		try {
+			$crypto->addWSESignature($request);
+			$this->fail('Exception ' . PublicKeyFileException::class . ' expected');
+		} catch (PublicKeyFileException $e) {
+			$this->assertSame(self::INVALID_KEY_PATH, $e->getPublicKeyFile());
+		}
+	}
+
 	private function getReceiptData(): array
 	{
 		return [
