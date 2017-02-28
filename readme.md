@@ -91,3 +91,13 @@ nemožnost nastavení timeoutu požadavků integrovaného SoapClienta.
 
 Součástí knihovny je implentace rozhraní s pomocí [guzzlehttp/guzzle](https://packagist.org/packages/guzzlehttp/guzzle). Výchozí timeout této implementace
 je 2.5 sekundy, nastavitelný parametrem konstruktoru.
+
+## Generování klíčů
+
+Klíče obdržené z portálu finanční správy ve formátu .p12 je třeba převést do formátu PEM.
+
+V příkazové řádce proveďte tyto příkazy:
+
+```$ openssl pkcs12 -in cesta/k/souboru.p12 -out public.pub -clcerts -nokeys```
+
+```$ openssl pkcs12 -in cesta/k/souboru.p12 -out private.key -nocerts```
