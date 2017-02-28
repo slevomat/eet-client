@@ -52,6 +52,18 @@ try {
 }
 ```
 
+### Generování klíčů
+
+Klíče obdržené z portálu Finanční správy jsou ve formátu .p12 a je třeba převést do formátu PEM.
+
+V příkazové řádce proveďte tyto příkazy:
+
+```$ openssl pkcs12 -in cesta/k/souboru.p12 -out public.pub -clcerts -nokeys```
+
+```$ openssl pkcs12 -in cesta/k/souboru.p12 -out private.key -nocerts```
+
+Cestu k výsledným `public.pub` a `private.key` pak nastavíte jako veřejný, resp. privátní klíč při vytváření `CryptographyService`
+
 ### Parametry účtenky
 
 | XML jméno (dokumentace EET) | Popis                                                                           | Umístění v klientu                             | Poznámka               |
