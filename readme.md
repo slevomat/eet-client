@@ -52,6 +52,18 @@ try {
 }
 ```
 
+### Generování klíčů
+
+Klíče obdržené z portálu Finanční správy jsou ve formátu .p12 a je třeba převést do formátu PEM.
+
+V příkazové řádce proveďte tyto příkazy:
+
+```$ openssl pkcs12 -in cesta/k/souboru.p12 -out public.pub -clcerts -nokeys```
+
+```$ openssl pkcs12 -in cesta/k/souboru.p12 -out private.key -nocerts```
+
+Cestu k výsledným `public.pub` a `private.key` pak nastavíte jako veřejný, resp. privátní klíč při vytváření `CryptographyService`
+
 ### Parametry účtenky
 
 | XML jméno (dokumentace EET) | Popis                                                                           | Umístění v klientu                             | Poznámka               |
@@ -91,13 +103,3 @@ nemožnost nastavení timeoutu požadavků integrovaného SoapClienta.
 
 Součástí knihovny je implentace rozhraní s pomocí [guzzlehttp/guzzle](https://packagist.org/packages/guzzlehttp/guzzle). Výchozí timeout této implementace
 je 2.5 sekundy, nastavitelný parametrem konstruktoru.
-
-## Generování klíčů
-
-Klíče obdržené z portálu finanční správy ve formátu .p12 je třeba převést do formátu PEM.
-
-V příkazové řádce proveďte tyto příkazy:
-
-```$ openssl pkcs12 -in cesta/k/souboru.p12 -out public.pub -clcerts -nokeys```
-
-```$ openssl pkcs12 -in cesta/k/souboru.p12 -out private.key -nocerts```
