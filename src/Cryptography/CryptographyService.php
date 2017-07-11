@@ -21,6 +21,10 @@ class CryptographyService
 		$this->privateKeyPassword = $privateKeyPassword;
 	}
 
+	/**
+	 * @param mixed[] $body
+	 * @return string
+	 */
 	public function getPkpCode(array $body): string
 	{
 		$values = [

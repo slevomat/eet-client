@@ -41,7 +41,7 @@ class EvidenceResponse
 
 	public function getFik(): string
 	{
-		if (!$this->isValid()) {
+		if ($this->fik === null) {
 			throw new InvalidResponseWithoutFikException($this);
 		}
 

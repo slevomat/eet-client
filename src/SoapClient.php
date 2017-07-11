@@ -29,7 +29,7 @@ class SoapClient extends \SoapClient
 	}
 
 	/**
-	 * @param array $parameters
+	 * @param mixed[] $parameters
 	 * @return mixed
 	 */
 	public function OdeslaniTrzby(array $parameters)
@@ -38,6 +38,7 @@ class SoapClient extends \SoapClient
 	}
 
 	/**
+	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 * @param string $request
 	 * @param string $location
 	 * @param string $action

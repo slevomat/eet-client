@@ -63,6 +63,9 @@ class EvidenceRequest
 		$this->bkpCode = $cryptographyService->getBkpCode($this->pkpCode);
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	public function getRequestData(): array
 	{
 		return [
@@ -89,11 +92,17 @@ class EvidenceRequest
 		return $this->sendDate;
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	public function getHeader(): array
 	{
 		return $this->header;
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	public function getBody(): array
 	{
 		return $this->body;

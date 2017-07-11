@@ -38,7 +38,10 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
 		$this->assertSame($expected, Formatter::formatDateTime($value));
 	}
 
-	public function dataTestFormatDateTime()
+	/**
+	 * @return mixed[][]
+	 */
+	public function dataTestFormatDateTime(): array
 	{
 		return [
 			[new \DateTimeImmutable('2016-03-11 11:05:00', new \DateTimeZone('Europe/Prague')), '2016-03-11T11:05:00+01:00'],
