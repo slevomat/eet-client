@@ -64,6 +64,8 @@ V příkazové řádce proveďte tyto příkazy:
 
 Cestu k výsledným `public.pub` a `private.key` pak nastavíte jako veřejný, resp. privátní klíč při vytváření `CryptographyService`
 
+Pro testovací prostředí (playground) je třeba využít speciální testovací certifikáty. Tyto playground certifikáty jsou distribuovány s knihovnou v adresáři `cert`. Detailnější popis naleznete v dokumentaci [k testovacímu prostředí EET](http://www.etrzby.cz/cs/oznameni-k-testovacimu-prostredi-playground).
+
 ### Parametry účtenky
 
 | XML jméno (dokumentace EET) | Popis                                                                           | Umístění v klientu                             | Poznámka               |
