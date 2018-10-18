@@ -2,11 +2,14 @@
 
 namespace SlevomatEET;
 
+use DateTimeImmutable;
+use Exception;
+use PHPUnit\Framework\TestCase;
 use SlevomatEET\Cryptography\CryptographyService;
 use SlevomatEET\Driver\DriverRequestFailedException;
 use SlevomatEET\Driver\SoapClientDriver;
 
-class ClientTest extends \PHPUnit\Framework\TestCase
+class ClientTest extends TestCase
 {
 
 	/** @var \SlevomatEET\Cryptography\CryptographyService|\PHPUnit\Framework\MockObject\MockObject */
@@ -123,7 +126,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
 				$this->identicalTo('https://pg.eet.cz:443/eet/services/EETServiceSOAP/v3'),
 				$this->identicalTo('http://fs.mfcr.cz/eet/OdeslaniTrzby')
 			)
-			->willThrowException(new DriverRequestFailedException(new \Exception('Fail')));
+			->willThrowException(new DriverRequestFailedException(new Exception('Fail')));
 		$this->cryptographyService->method('addWSESignature')
 			->willReturnArgument(0);
 
@@ -150,7 +153,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
 			true,
 			'CZ683555118',
 			'0/6460/ZQ42',
-			new \DateTimeImmutable('2016-11-01 00:30:12'),
+			new DateTimeImmutable('2016-11-01 00:30:12'),
 			3411300
 		);
 	}

@@ -2,6 +2,10 @@
 
 namespace SlevomatEET;
 
+use DateTime;
+use DateTimeImmutable;
+use stdClass;
+
 class EvidenceResponse
 {
 
@@ -26,7 +30,7 @@ class EvidenceResponse
 	/** @var \SlevomatEET\EvidenceRequest */
 	private $evidenceRequest;
 
-	public function __construct(\stdClass $rawData, EvidenceRequest $evidenceRequest)
+	public function __construct(stdClass $rawData, EvidenceRequest $evidenceRequest)
 	{
 		$this->rawData = $rawData;
 		$this->uuid = $rawData->Hlavicka->uuid_zpravy ?? null;
@@ -35,7 +39,7 @@ class EvidenceResponse
 		}
 		$this->bkp = $rawData->Hlavicka->bkp ?? null;
 		$this->test = $rawData->Potvrzeni->test ?? $rawData->Chyba->test ?? false;
-		$this->responseTime = \DateTimeImmutable::createFromFormat(\DateTime::ISO8601, $rawData->Hlavicka->dat_prij ?? $rawData->Hlavicka->dat_odmit);
+		$this->responseTime = DateTimeImmutable::createFromFormat(DateTime::ISO8601, $rawData->Hlavicka->dat_prij ?? $rawData->Hlavicka->dat_odmit);
 		$this->evidenceRequest = $evidenceRequest;
 	}
 
@@ -48,7 +52,7 @@ class EvidenceResponse
 		return $this->fik;
 	}
 
-	public function getRawData(): \stdClass
+	public function getRawData(): stdClass
 	{
 		return $this->rawData;
 	}
@@ -79,7 +83,7 @@ class EvidenceResponse
 		return $this->fik !== null;
 	}
 
-	public function getResponseTime(): \DateTimeImmutable
+	public function getResponseTime(): DateTimeImmutable
 	{
 		return $this->responseTime;
 	}

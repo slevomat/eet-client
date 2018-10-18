@@ -2,6 +2,11 @@
 
 namespace SlevomatEET\Cryptography;
 
+use DOMDocument;
+use RobRichards\WsePhp\WSSESoap;
+use RobRichards\XMLSecLibs\XMLSecurityDSig;
+use RobRichards\XMLSecLibs\XMLSecurityKey;
+
 class CryptographyService
 {
 
@@ -63,14 +68,14 @@ class CryptographyService
 
 	public function addWSESignature(string $request): string
 	{
-		$securityKey = new \RobRichards\XMLSecLibs\XMLSecurityKey(\RobRichards\XMLSecLibs\XMLSecurityKey::RSA_SHA256, ['type' => 'private']);
-		$document = new \DOMDocument('1.0');
+		$securityKey = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, ['type' => 'private']);
+		$document = new DOMDocument('1.0');
 		$document->loadXML($request);
-		$wse = new \RobRichards\WsePhp\WSSESoap($document);
+		$wse = new WSSESoap($document);
 		$securityKey->passphrase = $this->privateKeyPassword;
 		$securityKey->loadKey($this->privateKeyFile, true);
 		$wse->addTimestamp();
-		$wse->signSoapDoc($securityKey, ['algorithm' => \RobRichards\XMLSecLibs\XMLSecurityDSig::SHA256]);
+		$wse->signSoapDoc($securityKey, ['algorithm' => XMLSecurityDSig::SHA256]);
 		$binaryToken = $wse->addBinaryToken(file_get_contents($this->publicKeyFile));
 		$wse->attachTokentoSig($binaryToken);
 

@@ -2,7 +2,9 @@
 
 namespace SlevomatEET;
 
-class EvidenceMode extends \Consistence\Enum\Enum
+use Consistence\Enum\Enum;
+
+class EvidenceMode extends Enum
 {
 
 	const REGULAR = 0;

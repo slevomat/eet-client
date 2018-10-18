@@ -2,6 +2,10 @@
 
 namespace SlevomatEET;
 
+use DateTimeImmutable;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
+
 class Receipt
 {
 
@@ -142,7 +146,7 @@ class Receipt
 		bool $firstSend,
 		string $delegatedVatId = null,
 		string $receiptNumber,
-		\DateTimeImmutable $receiptTime,
+		DateTimeImmutable $receiptTime,
 		int $totalPrice = 0,
 		int $priceZeroVat = null,
 		int $priceStandardVat = null,
@@ -159,7 +163,7 @@ class Receipt
 		int $priceUsedSubsequentSettlement = null
 	)
 	{
-		$this->uuid = \Ramsey\Uuid\Uuid::uuid4();
+		$this->uuid = Uuid::uuid4();
 		$this->firstSend = $firstSend;
 		$this->delegatedVatId = $delegatedVatId;
 		$this->receiptNumber = $receiptNumber;
@@ -180,7 +184,7 @@ class Receipt
 		$this->priceUsedSubsequentSettlement = $priceUsedSubsequentSettlement;
 	}
 
-	public function getUuid(): \Ramsey\Uuid\UuidInterface
+	public function getUuid(): UuidInterface
 	{
 		return $this->uuid;
 	}
@@ -203,7 +207,7 @@ class Receipt
 		return $this->receiptNumber;
 	}
 
-	public function getReceiptTime(): \DateTimeImmutable
+	public function getReceiptTime(): DateTimeImmutable
 	{
 		return $this->receiptTime;
 	}

@@ -2,9 +2,13 @@
 
 namespace SlevomatEET\Cryptography;
 
+use DateTimeImmutable;
+use DateTimeZone;
+use PHPUnit\Framework\Error\Error;
+use PHPUnit\Framework\TestCase;
 use SlevomatEET\Formatter;
 
-class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
+class CryptographyServiceTest extends TestCase
 {
 
 	const EXPECTED_PKP = 'a0asEiJhFCBlVtptSspKvEZhcrvnzF7SQ55C4DhnStnSu1b37GUI2+Dlme9P94UCPZ1oCUPJdsYOBZ3IX6aEgEe0FJKXYX0kXraYCJKIo3g64wRchE7iblIOBCK1uHh8qqHA66Isnhb6hqBOOdlt2aWO/0jCzlfeQr0axpPF1mohMnP3h3ICaxZh0dnMdju5OmMrq+91PL5T9KkR7bfGHqAoWJ0kmxY/mZumtRfGil2/xf7I5pdVeYXPgDO/Tojzm6J95n68fPDOXTDrTzKYmqDjpg3kmWepLNQKFXRmkQrkBLToJWG1LDUDm3UTTmPWzq4c0XnGcXJDZglxfolGpA==';
@@ -90,7 +94,7 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 			'invalid'
 		);
 
-		$this->expectException(\PHPUnit\Framework\Error\Error::class);
+		$this->expectException(Error::class);
 		$this->expectExceptionMessage('openssl_sign(): supplied key param cannot be coerced into a private key');
 		$crypto->addWSESignature($request);
 	}
@@ -102,7 +106,7 @@ class CryptographyServiceTest extends \PHPUnit\Framework\TestCase
 			'id_provoz' => '273',
 			'id_pokl' => '/5546/RO24',
 			'porad_cis' => '0/6460/ZQ42',
-			'dat_trzby' => Formatter::formatDateTime(new \DateTimeImmutable('2016-08-05 00:30:12', new \DateTimeZone('Europe/Prague'))),
+			'dat_trzby' => Formatter::formatDateTime(new DateTimeImmutable('2016-08-05 00:30:12', new DateTimeZone('Europe/Prague'))),
 			'celk_trzba' => Formatter::formatAmount(3411300),
 		];
 	}

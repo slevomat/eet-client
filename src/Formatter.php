@@ -2,10 +2,12 @@
 
 namespace SlevomatEET;
 
+use DateTimeImmutable;
+
 class Formatter
 {
 
-	public static function formatDateTime(\DateTimeImmutable $value): string
+	public static function formatDateTime(DateTimeImmutable $value): string
 	{
 		return $value->format('c');
 	}
