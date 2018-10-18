@@ -38,7 +38,7 @@ class CryptographyService
 
 		$plaintext = implode('|', $values);
 
-		$privateKey = file_get_contents($this->privateKeyFile);
+		$privateKey = (string) file_get_contents($this->privateKeyFile);
 		$privateKeyId = openssl_pkey_get_private($privateKey, $this->privateKeyPassword);
 		if ($privateKeyId === false) {
 			throw new PrivateKeyFileException($this->privateKeyFile);

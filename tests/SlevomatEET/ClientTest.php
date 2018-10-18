@@ -9,19 +9,19 @@ use SlevomatEET\Driver\SoapClientDriver;
 class ClientTest extends \PHPUnit\Framework\TestCase
 {
 
-	/** @var \SlevomatEET\Cryptography\CryptographyService|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \SlevomatEET\Cryptography\CryptographyService|\PHPUnit\Framework\MockObject\MockObject */
 	private $cryptographyService;
 
-	/** @var \SlevomatEET\Configuration|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \SlevomatEET\Configuration */
 	private $configuration;
 
-	/** @var \SlevomatEET\Driver\SoapClientDriver|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \SlevomatEET\Driver\SoapClientDriver|\PHPUnit\Framework\MockObject\MockObject */
 	private $soapClientDriver;
 
 	public function setUp()
 	{
 		$this->cryptographyService = $this->createMock(CryptographyService::class);
-		$this->configuration = $configuration = new Configuration('CZ00000019', '273', '/5546/RO24', EvidenceEnvironment::get(EvidenceEnvironment::PLAYGROUND), false);
+		$this->configuration = new Configuration('CZ00000019', '273', '/5546/RO24', EvidenceEnvironment::get(EvidenceEnvironment::PLAYGROUND), false);
 		$this->soapClientDriver = $this->createMock(SoapClientDriver::class);
 	}
 
@@ -146,15 +146,13 @@ class ClientTest extends \PHPUnit\Framework\TestCase
 
 	private function getTestReceipt(): Receipt
 	{
-		$receipt = new Receipt(
+		return new Receipt(
 			true,
 			'CZ683555118',
 			'0/6460/ZQ42',
 			new \DateTimeImmutable('2016-11-01 00:30:12'),
 			3411300
 		);
-
-		return $receipt;
 	}
 
 }
