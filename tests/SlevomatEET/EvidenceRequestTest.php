@@ -2,9 +2,12 @@
 
 namespace SlevomatEET;
 
+use DateTimeImmutable;
+use DateTimeZone;
+use PHPUnit\Framework\TestCase;
 use SlevomatEET\Cryptography\CryptographyService;
 
-class EvidenceRequestTest extends \PHPUnit\Framework\TestCase
+class EvidenceRequestTest extends TestCase
 {
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject|\SlevomatEET\Cryptography\CryptographyService */
@@ -26,7 +29,7 @@ class EvidenceRequestTest extends \PHPUnit\Framework\TestCase
 			true,
 			'CZ683555118',
 			'0/6460/ZQ42',
-			new \DateTimeImmutable('2016-11-01 00:30:12', new \DateTimeZone('Europe/Prague')),
+			new DateTimeImmutable('2016-11-01 00:30:12', new DateTimeZone('Europe/Prague')),
 			3411300
 		);
 
@@ -86,7 +89,7 @@ class EvidenceRequestTest extends \PHPUnit\Framework\TestCase
 		$this->assertSame('123', $request->getPkpCode());
 		$this->assertSame('456', $request->getBkpCode());
 
-		$this->assertInstanceOf(\DateTimeImmutable::class, $request->getSendDate());
+		$this->assertInstanceOf(DateTimeImmutable::class, $request->getSendDate());
 	}
 
 }

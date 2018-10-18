@@ -2,7 +2,12 @@
 
 namespace SlevomatEET\Driver;
 
-class GuzzleSoapClientDriverTest extends \PHPUnit\Framework\TestCase
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
+
+class GuzzleSoapClientDriverTest extends TestCase
 {
 
 	public function testSend()
@@ -12,11 +17,11 @@ class GuzzleSoapClientDriverTest extends \PHPUnit\Framework\TestCase
 		$location = 'https://pg.eet.cz';
 		$soapAction = 'fooAction';
 
-		$guzzleHttpClient = $this->createMock(\GuzzleHttp\Client::class);
+		$guzzleHttpClient = $this->createMock(Client::class);
 		$guzzleHttpClient
 			->expects(self::once())
 			->method('send')
-			->with(self::callback(function (\GuzzleHttp\Psr7\Request $request) use ($requestData, $location, $soapAction) {
+			->with(self::callback(function (Request $request) use ($requestData, $location, $soapAction) {
 				$this->assertEquals([
 					'Host' => [
 						'pg.eet.cz',
@@ -38,7 +43,7 @@ class GuzzleSoapClientDriverTest extends \PHPUnit\Framework\TestCase
 
 				return true;
 			}))
-			->willReturn(new \GuzzleHttp\Psr7\Response(200, [], $responseData));
+			->willReturn(new Response(200, [], $responseData));
 
 		$guzzleSoapClientDriver = new GuzzleSoapClientDriver($guzzleHttpClient);
 		$response = $guzzleSoapClientDriver->send($requestData, $location, $soapAction, SOAP_1_1);

@@ -2,10 +2,14 @@
 
 namespace SlevomatEET;
 
+use Composer\CaBundle\CaBundle;
+use DateTimeImmutable;
+use GuzzleHttp\RequestOptions;
+use PHPUnit\Framework\TestCase;
 use SlevomatEET\Cryptography\CryptographyService;
 use SlevomatEET\Driver\GuzzleSoapClientDriver;
 
-class ClientFunctionalityTest extends \PHPUnit\Framework\TestCase
+class ClientFunctionalityTest extends TestCase
 {
 
 	public function testFunctionality()
@@ -20,7 +24,7 @@ class ClientFunctionalityTest extends \PHPUnit\Framework\TestCase
 			$configuration,
 			new GuzzleSoapClientDriver(
 				new \GuzzleHttp\Client(
-					[\GuzzleHttp\RequestOptions::VERIFY => \Composer\CaBundle\CaBundle::getBundledCaBundlePath()]
+					[RequestOptions::VERIFY => CaBundle::getBundledCaBundlePath()]
 				)
 			)
 		);
@@ -29,7 +33,7 @@ class ClientFunctionalityTest extends \PHPUnit\Framework\TestCase
 			true,
 			'CZ683555118',
 			'0/6460/ZQ42',
-			new \DateTimeImmutable('2016-11-01 00:30:12'),
+			new DateTimeImmutable('2016-11-01 00:30:12'),
 			3411300
 		);
 

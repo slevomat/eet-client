@@ -2,10 +2,13 @@
 
 namespace SlevomatEET\Driver;
 
-class DriverRequestFailedException extends \Exception
+use Exception;
+use Throwable;
+
+class DriverRequestFailedException extends Exception
 {
 
-	public function __construct(\Throwable $e)
+	public function __construct(Throwable $e)
 	{
 		parent::__construct($e->getMessage(), $e->getCode(), $e);
 	}

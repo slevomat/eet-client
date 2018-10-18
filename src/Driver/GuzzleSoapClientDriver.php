@@ -2,6 +2,11 @@
 
 namespace SlevomatEET\Driver;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\RequestOptions;
+
 class GuzzleSoapClientDriver implements SoapClientDriver
 {
 
@@ -17,7 +22,7 @@ class GuzzleSoapClientDriver implements SoapClientDriver
 	/** @var float */
 	private $requestTimeout;
 
-	public function __construct(\GuzzleHttp\Client $httpClient, float $connectionTimeout = self::DEFAULT_TIMEOUT, float $requestTimeout = self::DEFAULT_TIMEOUT)
+	public function __construct(Client $httpClient, float $connectionTimeout = self::DEFAULT_TIMEOUT, float $requestTimeout = self::DEFAULT_TIMEOUT)
 	{
 		$this->httpClient = $httpClient;
 		$this->connectionTimeout = $connectionTimeout;
@@ -33,17 +38,17 @@ class GuzzleSoapClientDriver implements SoapClientDriver
 			'Content-Length' => strlen($request),
 		];
 
-		$request = new \GuzzleHttp\Psr7\Request('POST', $location, $headers, $request);
+		$request = new Request('POST', $location, $headers, $request);
 		try {
 			$httpResponse = $this->httpClient->send($request, [
-				\GuzzleHttp\RequestOptions::HTTP_ERRORS => false,
-				\GuzzleHttp\RequestOptions::ALLOW_REDIRECTS => false,
-				\GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => $this->connectionTimeout,
-				\GuzzleHttp\RequestOptions::TIMEOUT => $this->requestTimeout,
+				RequestOptions::HTTP_ERRORS => false,
+				RequestOptions::ALLOW_REDIRECTS => false,
+				RequestOptions::CONNECT_TIMEOUT => $this->connectionTimeout,
+				RequestOptions::TIMEOUT => $this->requestTimeout,
 			]);
 
 			return (string) $httpResponse->getBody();
-		} catch (\GuzzleHttp\Exception\RequestException $e) {
+		} catch (RequestException $e) {
 			throw new DriverRequestFailedException($e);
 		}
 	}

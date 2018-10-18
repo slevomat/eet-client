@@ -2,7 +2,9 @@
 
 namespace SlevomatEET;
 
-class EvidenceEnvironmentTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class EvidenceEnvironmentTest extends TestCase
 {
 
 	/**

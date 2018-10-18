@@ -2,7 +2,9 @@
 
 namespace SlevomatEET\Cryptography;
 
-class SigningFailedException extends \Exception
+use Exception;
+
+class SigningFailedException extends Exception
 {
 
 	/** @var mixed[] */

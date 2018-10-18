@@ -2,6 +2,7 @@
 
 namespace SlevomatEET;
 
+use DateTimeImmutable;
 use SlevomatEET\Cryptography\CryptographyService;
 
 class EvidenceRequest
@@ -24,7 +25,7 @@ class EvidenceRequest
 
 	public function __construct(Receipt $receipt, Configuration $configuration, CryptographyService $cryptographyService)
 	{
-		$this->sendDate = new \DateTimeImmutable();
+		$this->sendDate = new DateTimeImmutable();
 		$this->header = [
 			'uuid_zpravy' => $receipt->getUuid()->toString(),
 			'dat_odesl' => Formatter::formatDateTime($this->sendDate),
@@ -87,7 +88,7 @@ class EvidenceRequest
 		];
 	}
 
-	public function getSendDate(): \DateTimeImmutable
+	public function getSendDate(): DateTimeImmutable
 	{
 		return $this->sendDate;
 	}

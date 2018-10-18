@@ -2,7 +2,9 @@
 
 namespace SlevomatEET;
 
-class EvidenceEnvironment extends \Consistence\Enum\Enum
+use Consistence\Enum\Enum;
+
+class EvidenceEnvironment extends Enum
 {
 
 	const PLAYGROUND = 'playground';

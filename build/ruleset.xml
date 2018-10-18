@@ -16,6 +16,9 @@
 		<exclude name="SlevomatCodingStandard.Commenting.DisallowOneLinePropertyDocComment"/>
 		<exclude name="SlevomatCodingStandard.Classes.SuperfluousExceptionNaming"/>
 		<exclude name="SlevomatCodingStandard.ControlStructures.NewWithoutParentheses"/>
+		<exclude name="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces"/>
+		<exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions"/>
+		<exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameAfterKeyword"/>
 	</rule>
 	<rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
 		<properties>
@@ -25,17 +28,6 @@
 	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
 		<properties>
 			<property name="rootNamespaces" type="array" value="src=>SlevomatEET,tests/SlevomatEET=>SlevomatEET"/>
-		</properties>
-	</rule>
-	<rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
-		<properties>
-			<property name="namespacesRequiredToUse" type="array" value="SlevomatEET" />
-		</properties>
-	</rule>
-	<rule ref="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces">
-		<properties>
-			<property name="allowUseFromRootNamespace" value="false" />
-			<property name="namespacesRequiredToUse" type="array" value="SlevomatEET" />
 		</properties>
 	</rule>
 	<rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
@@ -81,6 +73,13 @@
 				<element value="T_YIELD"/>
 				<element value="T_YIELD_FROM"/>
 			</property>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
+		<properties>
+			<property name="fullyQualifiedKeywords" type="array" value=""/>
+			<property name="allowFullyQualifiedExceptions" value="false"/>
+			<property name="allowFullyQualifiedNameForCollidingClasses" value="true"/>
 		</properties>
 	</rule>
 </ruleset>

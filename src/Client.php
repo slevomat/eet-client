@@ -5,6 +5,7 @@ namespace SlevomatEET;
 use SlevomatEET\Cryptography\CryptographyService;
 use SlevomatEET\Driver\DriverRequestFailedException;
 use SlevomatEET\Driver\SoapClientDriver;
+use SoapFault;
 
 class Client
 {
@@ -36,7 +37,7 @@ class Client
 			$response = $this->getSoapClient()->OdeslaniTrzby($request->getRequestData());
 		} catch (DriverRequestFailedException $e) {
 			throw new FailedRequestException($request, $e);
-		} catch (\SoapFault $e) {
+		} catch (SoapFault $e) {
 			throw new FailedRequestException($request, $e);
 		}
 
