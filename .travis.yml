@@ -1,7 +1,6 @@
 language: php
 
 php:
-  - 7.0
   - 7.1
   - 7.2
   - 7.3
@@ -24,5 +23,5 @@ script:
   - vendor/bin/phing
 
 after_script:
-  - if [[ $TRAVIS_PHP_VERSION = '7.0' && $COMPOSER_DEPENDENCIES_OPTIONS = '' ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-  - if [[ $TRAVIS_PHP_VERSION = '7.0' && $COMPOSER_DEPENDENCIES_OPTIONS = '' ]]; then php ocular.phar code-coverage:upload --format=php-clover build/log/clover.xml; fi
+  - if [[ $TRAVIS_PHP_VERSION = '7.2' && $COMPOSER_DEPENDENCIES_OPTIONS = '' ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [[ $TRAVIS_PHP_VERSION = '7.2' && $COMPOSER_DEPENDENCIES_OPTIONS = '' ]]; then php ocular.phar code-coverage:upload --format=php-clover build/log/clover.xml; fi
