@@ -5,9 +5,7 @@ namespace SlevomatEET\Cryptography;
 class SigningFailedException extends \Exception
 {
 
-	/**
-	 * @var mixed[]
-	 */
+	/** @var mixed[] */
 	private $data;
 
 	/**

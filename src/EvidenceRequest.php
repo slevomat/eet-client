@@ -55,7 +55,7 @@ class EvidenceRequest
 			'cerp_zuct' => Formatter::formatAmount($receipt->getPriceUsedSubsequentSettlement()),
 			'rezim' => $configuration->getEvidenceMode()->getValue(),
 		];
-		$this->body = array_filter($body, function ($value): bool {
+		$this->body = array_filter($body, static function ($value): bool {
 			return $value !== null;
 		});
 

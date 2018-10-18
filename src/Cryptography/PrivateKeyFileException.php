@@ -5,9 +5,7 @@ namespace SlevomatEET\Cryptography;
 class PrivateKeyFileException extends \Exception
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $privateKeyFile;
 
 	public function __construct(string $privateKeyFile, \Throwable $previous = null)

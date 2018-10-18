@@ -7,7 +7,7 @@ use SlevomatEET\Cryptography\CryptographyService;
 class EvidenceRequestTest extends \PHPUnit\Framework\TestCase
 {
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\SlevomatEET\Cryptography\CryptographyService */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\SlevomatEET\Cryptography\CryptographyService */
 	private $crypto;
 
 	/** @var \SlevomatEET\Configuration */
