@@ -20,7 +20,7 @@
 		"php": "^7.0",
 		"ext-openssl": "*",
 		"ext-soap": "*",
-		"consistence/consistence": "^1.0.0",
+		"consistence/consistence": "^2.0.0",
 		"ramsey/uuid": "^3.5",
 		"robrichards/wse-php": "^2.0"
 	},
