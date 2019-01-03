@@ -6,13 +6,13 @@ platform:
 environment:
   matrix:
   - dependencies: lowest
-    php_version: 7.1
+    php_version: 7.2
   - dependencies: highest
-    php_version: 7.1
+    php_version: 7.2
   - dependencies: lowest
-    php_version: 7.2
+    php_version: 7.3
   - dependencies: highest
-    php_version: 7.2
+    php_version: 7.3
 
   project_directory: c:\projects\slevomat-eet-client
   composer_directory: c:\tools\composer
