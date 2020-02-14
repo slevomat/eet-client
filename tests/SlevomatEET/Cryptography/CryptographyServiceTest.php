@@ -7,21 +7,22 @@ use DateTimeZone;
 use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
 use SlevomatEET\Formatter;
+use function base64_encode;
 
 class CryptographyServiceTest extends TestCase
 {
 
-	const EXPECTED_PKP = 'a0asEiJhFCBlVtptSspKvEZhcrvnzF7SQ55C4DhnStnSu1b37GUI2+Dlme9P94UCPZ1oCUPJdsYOBZ3IX6aEgEe0FJKXYX0kXraYCJKIo3g64wRchE7iblIOBCK1uHh8qqHA66Isnhb6hqBOOdlt2aWO/0jCzlfeQr0axpPF1mohMnP3h3ICaxZh0dnMdju5OmMrq+91PL5T9KkR7bfGHqAoWJ0kmxY/mZumtRfGil2/xf7I5pdVeYXPgDO/Tojzm6J95n68fPDOXTDrTzKYmqDjpg3kmWepLNQKFXRmkQrkBLToJWG1LDUDm3UTTmPWzq4c0XnGcXJDZglxfolGpA==';
-	const EXPECTED_BKP = '9356D566-A3E48838-FB403790-D201244E-95DCBD92';
+	const EXPECTED_PKP = 'hdBqjqCTaEfJ6JI06H+c4OLvRGtntcwLlG0fucEkla++g9RLxP55jYlPLFf6Sdpm5jPC+hpBHry98zsPBlbwkcFiWdmgT2VBCtXxrwfRmJQOHNRdWhItDsHC4p45G+KmtC4uJCFAqFNL+E999wevPaS6Q02WktmvWI5+XUZnN75hR+G94oznpJS8T140850/FsYDlvPw0ZVWJwDMBzVrOWWxPSN3SBwa40TjD3dVIMlMC1Bo0NccnFp0y7GxNMSfIzDhF5R4S2Rmawe85znZ0PiHXMkPDhXLLpPx1pNiMsTwfeoEnhEMSU/PjjmLpbUzaRfLwZzgf+7Bl0ZX+/lsqA==';
+	const EXPECTED_BKP = 'F049C3F1-165CDCDA-2E35BC3A-FCB5C660-4B84D0B7';
 
 	public function testGetCodes()
 	{
 		$data = $this->getReceiptData();
 		$crypto = new CryptographyService(__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.key', __DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.pub');
 
-		$expectedPkp = base64_decode(self::EXPECTED_PKP);
+		$expectedPkp = self::EXPECTED_PKP;
 		$pkpCode = $crypto->getPkpCode($data);
-		self::assertSame($expectedPkp, $pkpCode);
+		self::assertSame($expectedPkp, base64_encode($pkpCode));
 		self::assertSame(self::EXPECTED_BKP, $crypto->getBkpCode($pkpCode));
 	}
 
