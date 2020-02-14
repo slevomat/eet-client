@@ -7,7 +7,7 @@ use Consistence\Enum\Enum;
 class EvidenceMode extends Enum
 {
 
-	const REGULAR = 0;
-	const SIMPLIFIED = 1;
+	public const REGULAR = 0;
+	public const SIMPLIFIED = 1;
 
 }

@@ -4,14 +4,16 @@ namespace SlevomatEET;
 
 use SlevomatEET\Cryptography\CryptographyService;
 use SlevomatEET\Driver\SoapClientDriver;
+use const SOAP_1_1;
+use const WSDL_CACHE_DISK;
 
 class SoapClient extends \SoapClient
 {
 
-	/** @var \SlevomatEET\Cryptography\CryptographyService */
+	/** @var CryptographyService */
 	private $cryptoService;
 
-	/** @var \SlevomatEET\Driver\SoapClientDriver */
+	/** @var SoapClientDriver */
 	private $clientDriver;
 
 	public function __construct(string $wsdl, CryptographyService $cryptoService, SoapClientDriver $clientDriver)
@@ -38,7 +40,8 @@ class SoapClient extends \SoapClient
 	}
 
 	/**
-	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+	 *
 	 * @param string $request
 	 * @param string $location
 	 * @param string $action
@@ -46,7 +49,7 @@ class SoapClient extends \SoapClient
 	 * @param int $oneWay
 	 * @return string|null
 	 */
-	public function __doRequest($request, $location, $action, $version, $oneWay = 0)
+	public function __doRequest($request, $location, $action, $version, $oneWay = 0): ?string
 	{
 		$signedRequest = $this->cryptoService->addWSESignature($request);
 		$response = $this->clientDriver->send($signedRequest, $location, $action, $version);

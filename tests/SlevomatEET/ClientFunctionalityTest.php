@@ -4,6 +4,7 @@ namespace SlevomatEET;
 
 use Composer\CaBundle\CaBundle;
 use DateTimeImmutable;
+use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\RequestOptions;
 use PHPUnit\Framework\TestCase;
 use SlevomatEET\Cryptography\CryptographyService;
@@ -12,7 +13,7 @@ use SlevomatEET\Driver\GuzzleSoapClientDriver;
 class ClientFunctionalityTest extends TestCase
 {
 
-	public function testFunctionality()
+	public function testFunctionality(): void
 	{
 		if (getenv('TRAVIS') !== false) {
 			$this->markTestSkipped('EET is blocking Travis CI :(');
@@ -23,7 +24,7 @@ class ClientFunctionalityTest extends TestCase
 			$crypto,
 			$configuration,
 			new GuzzleSoapClientDriver(
-				new \GuzzleHttp\Client(
+				new GuzzleClient(
 					[RequestOptions::VERIFY => CaBundle::getBundledCaBundlePath()]
 				)
 			)

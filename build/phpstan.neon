@@ -1,11 +1,6 @@
-includes:
-	- ../vendor/phpstan/phpstan-phpunit/extension.neon
-	- ../vendor/phpstan/phpstan-phpunit/rules.neon
-
 parameters:
-	autoload_files:
-		- %rootDir%/../../../tests/SlevomatEET/Cryptography/OpenSslFunctionsMock.php
+	excludes_analyse:
+		- *tests/SlevomatEET/Cryptography/OpenSslFunctionsMock.php
 	ignoreErrors:
-		- '#Access to private property SlevomatEET\\Client::\$soapClient#'
 		- '#Call to an undefined static method SoapClient::__construct\(\)#'
 		- '#Property SlevomatEET\\EvidenceResponse::\$responseTime \(DateTimeImmutable\) does not accept DateTimeImmutable\|false\.#'

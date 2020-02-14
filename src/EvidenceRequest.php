@@ -8,7 +8,7 @@ use SlevomatEET\Cryptography\CryptographyService;
 class EvidenceRequest
 {
 
-	/** @var \DateTimeImmutable */
+	/** @var DateTimeImmutable */
 	private $sendDate;
 
 	/** @var mixed[] */

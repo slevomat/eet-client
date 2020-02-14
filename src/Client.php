@@ -10,16 +10,16 @@ use SoapFault;
 class Client
 {
 
-	/** @var \SlevomatEET\Cryptography\CryptographyService */
+	/** @var CryptographyService */
 	private $cryptographyService;
 
-	/** @var \SlevomatEET\Configuration */
+	/** @var Configuration */
 	private $configuration;
 
-	/** @var \SlevomatEET\SoapClient|null */
+	/** @var SoapClient|null */
 	private $soapClient;
 
-	/** @var \SlevomatEET\Driver\SoapClientDriver */
+	/** @var SoapClientDriver */
 	private $soapClientDriver;
 
 	public function __construct(CryptographyService $cryptographyService, Configuration $configuration, SoapClientDriver $soapClientDriver)

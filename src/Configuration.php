@@ -17,10 +17,10 @@ class Configuration
 	/** @var bool */
 	private $verificationMode;
 
-	/** @var \SlevomatEET\EvidenceMode */
+	/** @var EvidenceMode */
 	private $evidenceMode;
 
-	/** @var \SlevomatEET\EvidenceEnvironment */
+	/** @var EvidenceEnvironment */
 	private $evidenceEnvironment;
 
 	public function __construct(string $vatId, string $premiseId, string $cashRegisterId, EvidenceEnvironment $evidenceEnvironment, bool $verificationMode = false)

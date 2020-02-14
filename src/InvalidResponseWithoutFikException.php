@@ -8,10 +8,10 @@ use Throwable;
 class InvalidResponseWithoutFikException extends Exception
 {
 
-	/** @var \SlevomatEET\EvidenceResponse */
+	/** @var EvidenceResponse */
 	private $response;
 
-	public function __construct(EvidenceResponse $response, Throwable $previous = null)
+	public function __construct(EvidenceResponse $response, ?Throwable $previous = null)
 	{
 		parent::__construct('Missing FIK in response', 0, $previous);
 		$this->response = $response;

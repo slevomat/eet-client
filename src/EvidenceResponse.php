@@ -9,7 +9,7 @@ use stdClass;
 class EvidenceResponse
 {
 
-	/** @var \stdClass */
+	/** @var stdClass */
 	private $rawData;
 
 	/** @var string|null */
@@ -24,10 +24,10 @@ class EvidenceResponse
 	/** @var string|null */
 	private $fik;
 
-	/** @var \DateTimeImmutable */
+	/** @var DateTimeImmutable */
 	private $responseTime;
 
-	/** @var \SlevomatEET\EvidenceRequest */
+	/** @var EvidenceRequest */
 	private $evidenceRequest;
 
 	public function __construct(stdClass $rawData, EvidenceRequest $evidenceRequest)
@@ -57,18 +57,12 @@ class EvidenceResponse
 		return $this->rawData;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getUuid()
+	public function getUuid(): ?string
 	{
 		return $this->uuid;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getBkp()
+	public function getBkp(): ?string
 	{
 		return $this->bkp;
 	}
