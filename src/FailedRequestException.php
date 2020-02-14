@@ -8,7 +8,7 @@ use Throwable;
 class FailedRequestException extends Exception
 {
 
-	/** @var \SlevomatEET\EvidenceRequest */
+	/** @var EvidenceRequest */
 	private $request;
 
 	public function __construct(EvidenceRequest $request, Throwable $previous)

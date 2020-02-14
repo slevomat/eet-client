@@ -10,10 +10,10 @@ use GuzzleHttp\RequestOptions;
 class GuzzleSoapClientDriver implements SoapClientDriver
 {
 
-	const DEFAULT_TIMEOUT = 2.5;
-	const HEADER_USER_AGENT = 'PHP';
+	public const DEFAULT_TIMEOUT = 2.5;
+	public const HEADER_USER_AGENT = 'PHP';
 
-	/** @var \GuzzleHttp\Client */
+	/** @var Client */
 	private $httpClient;
 
 	/** @var float */

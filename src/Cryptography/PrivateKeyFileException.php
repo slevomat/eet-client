@@ -11,7 +11,7 @@ class PrivateKeyFileException extends Exception
 	/** @var string */
 	private $privateKeyFile;
 
-	public function __construct(string $privateKeyFile, Throwable $previous = null)
+	public function __construct(string $privateKeyFile, ?Throwable $previous = null)
 	{
 		parent::__construct(sprintf(
 			'Private key could not be loaded from file \'%s\'. Please make sure that the file contains valid private key in PEM format.',

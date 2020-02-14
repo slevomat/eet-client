@@ -1,33 +1,145 @@
 <?xml version="1.0"?>
 <ruleset name="SlevomatEET">
-	<rule ref="vendor/consistence/coding-standard/Consistence/ruleset.xml">
-		<exclude name="Squiz.Commenting.FunctionComment.IncorrectParamVarName"/>
+	<arg name="extensions" value="php"/>
+	<arg name="tab-width" value="4"/>
+	<arg value="s"/>
+	<arg value="p"/>
+
+	<rule ref="./vendor/consistence/coding-standard/Consistence/ruleset.xml">
 		<exclude name="Consistence.Exceptions.ExceptionDeclaration.IncorrectExceptionDirectory"/>
 		<exclude name="Consistence.Exceptions.ExceptionDeclaration.NotChainable"/>
-	</rule>
-	<rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
-		<exclude name="SlevomatCodingStandard.Classes.ClassConstantVisibility"/><!-- PHP >= 7.1 only -->
+		<exclude name="Generic.Arrays.ArrayIndent"/><!-- buggy -->
+		<exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedIf"/><!-- allow empty if statements - usually with a comment -->
+		<exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedElse"/><!-- allow empty else statements - usually with a comment -->
+		<exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedElseif"/><!-- allow empty elseif statements - usually with a comment -->
+		<exclude name="PEAR.WhiteSpace.ObjectOperatorIndent.Incorrect"/><!-- je potřeba odsazení u formů a dibi fluent -->
+		<exclude name="PSR2.Methods.FunctionCallSignature.CloseBracketLine"/><!-- string rozdělený na více řádků, typicky SQL -->
+		<exclude name="PSR2.Methods.FunctionCallSignature.MultipleArguments"/><!-- dibi syntaxe využívá argumentů "v textu" -->
+		<exclude name="PSR2.Methods.FunctionCallSignature.SpaceBeforeCloseBracket"/><!-- conflicts with our way of writing multiline SQL queries -->
 		<exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameAfterKeyword"/>
+		<exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameInAnnotation"/>
 		<exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions"/>
-		<exclude name="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/><!-- PHP >= 7.1 only -->
-		<exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalConstants"/>
-		<exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalFunctions"/>
-		<exclude name="SlevomatCodingStandard.ControlStructures.RequireYodaComparison"/>
-		<exclude name="SlevomatCodingStandard.Commenting.DisallowOneLinePropertyDocComment"/>
-		<exclude name="SlevomatCodingStandard.Classes.SuperfluousExceptionNaming"/>
-		<exclude name="SlevomatCodingStandard.ControlStructures.NewWithoutParentheses"/>
-		<exclude name="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces"/>
-		<exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions"/>
-		<exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameAfterKeyword"/>
+		<exclude name="Squiz.Commenting.FunctionComment.InvalidNoReturn"/> <!-- does not recognize method that only throws exception -->
+		<exclude name="SlevomatCodingStandard.Numbers.DisallowNumericLiteralSeparator"/>
+		<exclude name="SlevomatCodingStandard.Numbers.RequireNumericLiteralSeparator"/>
+		<exclude name="SlevomatCodingStandard.PHP.DisallowReference"/>
+		<exclude name="SlevomatCodingStandard.PHP.RequireExplicitAssertion"/>
 	</rule>
-	<rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
-		<properties>
-			<property name="searchAnnotations" value="false"/>
-		</properties>
-	</rule>
+	<rule ref="SlevomatCodingStandard.Arrays.DisallowImplicitArrayCreation" />
+	<rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma" />
+	<rule ref="SlevomatCodingStandard.Classes.ClassConstantVisibility" />
+	<rule ref="SlevomatCodingStandard.Classes.DisallowLateStaticBindingForConstants" />
+	<rule ref="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces" />
+	<rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference" />
+	<rule ref="SlevomatCodingStandard.Classes.SuperfluousAbstractClassNaming" />
+	<rule ref="SlevomatCodingStandard.Classes.SuperfluousInterfaceNaming" />
+	<rule ref="SlevomatCodingStandard.Classes.SuperfluousTraitNaming" />
+	<rule ref="SlevomatCodingStandard.Classes.TraitUseDeclaration" />
+	<rule ref="SlevomatCodingStandard.Classes.TraitUseSpacing" />
+	<rule ref="SlevomatCodingStandard.Classes.UnusedPrivateElements" />
+	<rule ref="SlevomatCodingStandard.Classes.UselessLateStaticBinding" />
+	<rule ref="SlevomatCodingStandard.Commenting.EmptyComment" />
+	<rule ref="SlevomatCodingStandard.Commenting.ForbiddenAnnotations" />
+	<rule ref="SlevomatCodingStandard.Commenting.ForbiddenComments" />
+	<rule ref="SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration" />
+	<rule ref="SlevomatCodingStandard.Commenting.RequireOneLinePropertyDocComment" />
+	<rule ref="SlevomatCodingStandard.Commenting.UselessInheritDocComment" />
+	<rule ref="SlevomatCodingStandard.ControlStructures.AssignmentInCondition" />
+	<rule ref="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing" />
+	<rule ref="SlevomatCodingStandard.ControlStructures.JumpStatementsSpacing" />
+	<rule ref="SlevomatCodingStandard.ControlStructures.DisallowContinueWithoutIntegerOperandInSwitch" />
+	<rule ref="SlevomatCodingStandard.ControlStructures.DisallowEmpty" />
+	<rule ref="SlevomatCodingStandard.ControlStructures.DisallowShortTernaryOperator" />
+	<rule ref="SlevomatCodingStandard.ControlStructures.DisallowYodaComparison" />
+	<rule ref="SlevomatCodingStandard.ControlStructures.LanguageConstructWithParentheses" />
+	<rule ref="SlevomatCodingStandard.ControlStructures.NewWithParentheses" />
+	<rule ref="SlevomatCodingStandard.ControlStructures.RequireMultiLineTernaryOperator" />
+	<rule ref="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator" />
+	<rule ref="SlevomatCodingStandard.ControlStructures.RequireTernaryOperator" />
+	<rule ref="SlevomatCodingStandard.ControlStructures.UselessIfConditionWithReturn" />
+	<rule ref="SlevomatCodingStandard.ControlStructures.UselessTernaryOperator" />
+	<rule ref="SlevomatCodingStandard.Exceptions.DeadCatch" />
+	<rule ref="SlevomatCodingStandard.Exceptions.ReferenceThrowableOnly" />
 	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
 		<properties>
-			<property name="rootNamespaces" type="array" value="src=>SlevomatEET,tests/SlevomatEET=>SlevomatEET"/>
+			<property name="rootNamespaces" type="array" value="
+				src => SlevomatEET,
+				tests/SlevomatEET => SlevomatEET,
+			"/>
+		</properties>
+	</rule>	<rule ref="SlevomatCodingStandard.Functions.StaticClosure" />
+	<rule ref="SlevomatCodingStandard.Functions.UnusedInheritedVariablePassedToClosure" />
+	<rule ref="SlevomatCodingStandard.Functions.UselessParameterDefaultValue" />
+	<rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses" />
+	<rule ref="SlevomatCodingStandard.Namespaces.DisallowGroupUse" />
+	<rule ref="SlevomatCodingStandard.Namespaces.MultipleUsesPerLine" />
+	<rule ref="SlevomatCodingStandard.Namespaces.NamespaceDeclaration" />
+	<rule ref="SlevomatCodingStandard.Namespaces.NamespaceSpacing" />
+<!--	<rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly" />-->
+	<rule ref="SlevomatCodingStandard.Namespaces.RequireOneNamespaceInFile" />
+	<rule ref="SlevomatCodingStandard.Namespaces.UnusedUses" />
+	<rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash" />
+	<rule ref="SlevomatCodingStandard.Namespaces.UseFromSameNamespace" />
+	<rule ref="SlevomatCodingStandard.Namespaces.UseSpacing" />
+	<rule ref="SlevomatCodingStandard.Namespaces.UselessAlias" />
+	<rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators" />
+	<rule ref="SlevomatCodingStandard.Operators.RequireCombinedAssignmentOperator" />
+	<rule ref="SlevomatCodingStandard.Operators.RequireOnlyStandaloneIncrementAndDecrementOperators" />
+	<rule ref="SlevomatCodingStandard.Operators.SpreadOperatorSpacing" />
+	<rule ref="SlevomatCodingStandard.PHP.OptimizedFunctionsWithoutUnpacking" />
+	<rule ref="SlevomatCodingStandard.PHP.ShortList" />
+	<rule ref="SlevomatCodingStandard.PHP.TypeCast" />
+	<rule ref="SlevomatCodingStandard.PHP.UselessParentheses" />
+	<rule ref="SlevomatCodingStandard.PHP.UselessSemicolon" />
+	<rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes" />
+	<rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints" />
+	<rule ref="SlevomatCodingStandard.TypeHints.NullTypeHintOnLastPosition" />
+	<rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing" />
+	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing" />
+	<rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint">
+		<exclude-pattern>tests/SlevomatEET/Cryptography/OpenSslFunctionsMock.php</exclude-pattern>
+	</rule>
+	<rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint" />
+	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
+		<exclude-pattern>tests/SlevomatEET/Cryptography/OpenSslFunctionsMock.php</exclude-pattern>
+	</rule>
+	<rule ref="SlevomatCodingStandard.TypeHints.UselessConstantTypeHint" />
+	<rule ref="SlevomatCodingStandard.Variables.DuplicateAssignmentToVariable" />
+	<rule ref="SlevomatCodingStandard.Variables.UnusedVariable">
+		<properties>
+			<property name="ignoreUnusedValuesWhenOnlyKeysAreUsedInForeach" value="true"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Variables.UselessVariable" />
+
+	<rule ref="SlevomatCodingStandard.Commenting.ForbiddenAnnotations">
+		<properties>
+			<property name="forbiddenAnnotations" type="array" value="
+				@author,
+				@created,
+				@copyright,
+				@license,
+				@package,
+				@version,
+			"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Exceptions.ReferenceThrowableOnly"/>
+	<rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses">
+		<properties>
+			<property name="caseSensitive" value="false"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
+		<properties>
+			<property name="searchAnnotations" value="true"/>
+			<property name="fullyQualifiedKeywords" type="array" value=""/>
+			<property name="allowFallbackGlobalFunctions" value="true"/> <!-- tests require fallbacks to mock core functions -->
+			<property name="allowFallbackGlobalConstants" value="false"/>
+			<property name="allowFullyQualifiedExceptions" value="false"/>
+			<property name="allowFullyQualifiedNameForCollidingClasses" value="true"/>
+			<property name="allowFullyQualifiedNameForCollidingFunctions" value="true"/>
+			<property name="allowFullyQualifiedNameForCollidingConstants" value="true"/>
 		</properties>
 	</rule>
 	<rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
@@ -35,22 +147,139 @@
 			<property name="newlinesCountBetweenOpenTagAndDeclare" value="0"/>
 		</properties>
 	</rule>
-	<rule ref="SlevomatCodingStandard.TypeHints.TypeHintDeclaration">
-		<properties>
-			<property name="enableNullableTypeHints" value="false"/>
-			<property name="enableVoidTypeHint" value="false"/>
-			<property name="usefulAnnotations" type="array" value="
-				@dataProvider,
-				@runInSeparateProcess,
-			"/>
-		</properties>
-		<exclude-pattern>tests/SlevomatEET/Cryptography/OpenSslFunctionsMock.php</exclude-pattern>
-	</rule>
-	<rule ref="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingTraversableReturnTypeHintSpecification">
+	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification">
 		<exclude-pattern>tests/</exclude-pattern><!-- it's useless to add "@return mixed[]" to all data providers -->
 	</rule>
+	<rule ref="Squiz.WhiteSpace.FunctionSpacing.After"/>
 	<rule ref="Squiz.Commenting.FunctionComment">
 		<exclude-pattern>tests/</exclude-pattern><!-- @dataProvider etc. annotations trigger comments check -->
+	</rule>
+	<rule ref="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing">
+		<properties>
+			<property name="tokensToCheck" type="array">
+				<element value="T_SWITCH"/>
+				<element value="T_THROW"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.ControlStructures.JumpStatementsSpacing">
+		<properties>
+			<property name="tokensToCheck" type="array">
+				<element value="T_GOTO"/>
+				<element value="T_THROW"/>
+				<element value="T_YIELD"/>
+				<element value="T_YIELD_FROM"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.ControlStructures.RequireMultiLineTernaryOperator">
+		<properties>
+			<property name="lineLengthLimit" value="180"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.ControlStructures.RequireTernaryOperator">
+		<properties>
+			<property name="ignoreMultiLine" value="true"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing">
+		<properties>
+			<property name="tokensToCheck" type="array">
+				<element value="T_SWITCH"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.ControlStructures.JumpStatementsSpacing">
+		<properties>
+			<property name="tokensToCheck" type="array">
+				<element value="T_GOTO"/>
+				<element value="T_THROW"/>
+				<element value="T_YIELD"/>
+				<element value="T_YIELD_FROM"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Commenting.UselessFunctionDocComment"/>
+	<rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint">
+		<exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.UselessAnnotation"/>
+		<properties>
+			<property name="traversableTypeHints" type="array" value="
+				Traversable,
+				Generator,
+			"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint">
+		<properties>
+			<property name="enableNativeTypeHint" value="false"/>
+			<property name="traversableTypeHints" type="array" value="
+				Traversable,
+				Generator,
+			"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
+		<properties>
+			<property name="traversableTypeHints" type="array" value="
+				Traversable,
+				Generator,
+			"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Classes.ConstantSpacing">
+		<properties>
+			<property name="minLinesCountBeforeWithComment" value="0"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Classes.PropertySpacing">
+		<properties>
+			<property name="minLinesCountBeforeWithComment" value="0"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Arrays.MultiLineArrayEndBracketPlacement"/>
+	<rule ref="SlevomatCodingStandard.Arrays.SingleLineArrayWhitespace"/>
+	<rule ref="SlevomatCodingStandard.Operators.NegationOperatorSpacing"/>
+	<rule ref="SlevomatCodingStandard.Commenting.DocCommentSpacing">
+		<properties>
+			<property name="annotationsGroups" type="array">
+				<element value="
+					@phpcsSuppress,
+				"/>
+				<element value="
+					@dataProvider,
+				"/>
+				<element value="
+					@deprecated,
+					@internal,
+					@see,
+				"/>
+				<element value="
+					@var,
+				"/>
+				<element value="
+					@param,
+					@return,
+				"/>
+				<element value="
+					@phpstan-template,
+					@phpstan-template-covariant,
+					@phpstan-extends,
+					@phpstan-implements,
+					@phpstan-var,
+					@phpstan-param,
+					@phpstan-return,
+					@phpstan-,
+				"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="Squiz.Functions.GlobalFunction.Found">
+		<exclude-pattern>tests/unit/Api/Driver/CurlMock.php</exclude-pattern>
+		<exclude-pattern>tests/unit/Api/Driver/Curl_exec_false_Mock.php</exclude-pattern>
+		<exclude-pattern>tests/unit/Crypto/GlobalFunctionsMock.php</exclude-pattern>
+	</rule>
+	<rule ref="Consistence.NamingConventions.ValidVariableName.NotCamelCaps">
+		<exclude-pattern>tests/unit/Crypto/GlobalFunctionsMock.php</exclude-pattern>
 	</rule>
 	<rule ref="Squiz.Functions.GlobalFunction.Found">
 		<exclude-pattern>tests/SlevomatEET/Cryptography/OpenSslFunctionsMock.php</exclude-pattern>
@@ -60,26 +289,5 @@
 	</rule>
 	<rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
 		<exclude-pattern>src/SoapClient.php</exclude-pattern>
-	</rule>
-	<rule ref="SlevomatCodingStandard.Functions.UnusedParameter">
-		<exclude-pattern>tests/SlevomatEET/Cryptography/OpenSslFunctionsMock.php</exclude-pattern>
-	</rule>
-	<rule ref="SlevomatCodingStandard.ControlStructures.ControlStructureSpacing">
-		<properties>
-			<property name="tokensToCheck" type="array">
-				<element value="T_GOTO"/>
-				<element value="T_SWITCH"/>
-				<element value="T_THROW"/>
-				<element value="T_YIELD"/>
-				<element value="T_YIELD_FROM"/>
-			</property>
-		</properties>
-	</rule>
-	<rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
-		<properties>
-			<property name="fullyQualifiedKeywords" type="array" value=""/>
-			<property name="allowFullyQualifiedExceptions" value="false"/>
-			<property name="allowFullyQualifiedNameForCollidingClasses" value="true"/>
-		</properties>
 	</rule>
 </ruleset>

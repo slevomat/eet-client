@@ -6,6 +6,7 @@ use DOMDocument;
 use RobRichards\WsePhp\WSSESoap;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use RobRichards\XMLSecLibs\XMLSecurityKey;
+use const OPENSSL_ALGO_SHA256;
 
 class CryptographyService
 {

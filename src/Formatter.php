@@ -12,11 +12,7 @@ class Formatter
 		return $value->format('c');
 	}
 
-	/**
-	 * @param int|null $price
-	 * @return string|null
-	 */
-	public static function formatAmount(int $price = null)
+	public static function formatAmount(?int $price = null): ?string
 	{
 		return $price === null ? null : number_format($price / 100, 2, '.', '');
 	}

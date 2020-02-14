@@ -11,14 +11,18 @@ class FormatterTest extends TestCase
 
 	/**
 	 * @dataProvider dataTestFormatAmount
+	 *
 	 * @param int|null $value
 	 * @param string|null $expected
 	 */
-	public function testFormatAmount(int $value = null, string $expected = null)
+	public function testFormatAmount(?int $value = null, ?string $expected = null): void
 	{
 		$this->assertSame($expected, Formatter::formatAmount($value));
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	public function dataTestFormatAmount(): array
 	{
 		return [
@@ -34,10 +38,11 @@ class FormatterTest extends TestCase
 
 	/**
 	 * @dataProvider dataTestFormatDateTime
-	 * @param \DateTimeImmutable $value
+	 *
+	 * @param DateTimeImmutable $value
 	 * @param string $expected
 	 */
-	public function testFormatDateTime(DateTimeImmutable $value, string $expected)
+	public function testFormatDateTime(DateTimeImmutable $value, string $expected): void
 	{
 		$this->assertSame($expected, Formatter::formatDateTime($value));
 	}

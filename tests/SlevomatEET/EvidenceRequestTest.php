@@ -10,20 +10,15 @@ use SlevomatEET\Cryptography\CryptographyService;
 class EvidenceRequestTest extends TestCase
 {
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject|\SlevomatEET\Cryptography\CryptographyService */
-	private $crypto;
-
-	/** @var \SlevomatEET\Configuration */
+	/** @var Configuration */
 	private $configuration;
 
-	public function setUp()
+	public function setUp(): void
 	{
-		$this->crypto = $this->createMock(CryptographyService::class);
-
 		$this->configuration = new Configuration('CZ00000019', '273', '/5546/RO24', EvidenceEnvironment::get(EvidenceEnvironment::PLAYGROUND), true);
 	}
 
-	public function testRequestFormatting()
+	public function testRequestFormatting(): void
 	{
 		$receipt = new Receipt(
 			true,
@@ -33,13 +28,14 @@ class EvidenceRequestTest extends TestCase
 			3411300
 		);
 
-		$this->crypto->method('getPkpCode')
+		$crypto = $this->createMock(CryptographyService::class);
+		$crypto->method('getPkpCode')
 			->willReturn('123');
 
-		$this->crypto->method('getBkpCode')
+		$crypto->method('getBkpCode')
 			->willReturn('456');
 
-		$request = new EvidenceRequest($receipt, $this->configuration, $this->crypto);
+		$request = new EvidenceRequest($receipt, $this->configuration, $crypto);
 
 		$requestData = $request->getRequestData();
 

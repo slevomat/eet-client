@@ -2,6 +2,8 @@
 
 namespace SlevomatEET\Cryptography;
 
+use const OPENSSL_ALGO_SHA1;
+
 function openssl_sign($data, &$signature, $priv_key_id, $signature_alg = OPENSSL_ALGO_SHA1)
 {
 	return false;

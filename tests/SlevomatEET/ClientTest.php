@@ -12,32 +12,24 @@ use SlevomatEET\Driver\SoapClientDriver;
 class ClientTest extends TestCase
 {
 
-	/** @var \SlevomatEET\Cryptography\CryptographyService|\PHPUnit\Framework\MockObject\MockObject */
-	private $cryptographyService;
-
-	/** @var \SlevomatEET\Configuration */
+	/** @var Configuration */
 	private $configuration;
 
-	/** @var \SlevomatEET\Driver\SoapClientDriver|\PHPUnit\Framework\MockObject\MockObject */
-	private $soapClientDriver;
-
-	public function setUp()
+	public function setUp(): void
 	{
-		$this->cryptographyService = $this->createMock(CryptographyService::class);
 		$this->configuration = new Configuration('CZ00000019', '273', '/5546/RO24', EvidenceEnvironment::get(EvidenceEnvironment::PLAYGROUND), false);
-		$this->soapClientDriver = $this->createMock(SoapClientDriver::class);
 	}
 
-	public function testSendSuccess()
+	public function testSendSuccess(): void
 	{
 		$client = new Client(
-			$this->cryptographyService,
+			$this->createMock(CryptographyService::class),
 			$this->configuration,
-			$this->soapClientDriver
+			$this->createMock(SoapClientDriver::class)
 		);
 
 		$soapClient = $this->createMock(SoapClient::class);
-		(function () use ($soapClient) {
+		(function () use ($soapClient): void {
 			$this->soapClient = $soapClient;
 		})->call($client);
 
@@ -71,16 +63,16 @@ class ClientTest extends TestCase
 		$this->assertSame($response->getFik(), '888-88-88-8888-ff');
 	}
 
-	public function testSendInvalidResponse()
+	public function testSendInvalidResponse(): void
 	{
 		$client = new Client(
-			$this->cryptographyService,
+			$this->createMock(CryptographyService::class),
 			$this->configuration,
-			$this->soapClientDriver
+			$this->createMock(SoapClientDriver::class)
 		);
 
 		$soapClient = $this->createMock(SoapClient::class);
-		(function () use ($soapClient) {
+		(function () use ($soapClient): void {
 			$this->soapClient = $soapClient;
 		})->call($client);
 
@@ -117,9 +109,10 @@ class ClientTest extends TestCase
 		}
 	}
 
-	public function testSendFailedRequest()
+	public function testSendFailedRequest(): void
 	{
-		$this->soapClientDriver->expects($this->once())
+		$soapClientDriver = $this->createMock(SoapClientDriver::class);
+		$soapClientDriver->expects($this->once())
 			->method('send')
 			->with(
 				$this->stringStartsWith('<?xml'),
@@ -127,13 +120,14 @@ class ClientTest extends TestCase
 				$this->identicalTo('http://fs.mfcr.cz/eet/OdeslaniTrzby')
 			)
 			->willThrowException(new DriverRequestFailedException(new Exception('Fail')));
-		$this->cryptographyService->method('addWSESignature')
+		$cryptographyService = $this->createMock(CryptographyService::class);
+		$cryptographyService->method('addWSESignature')
 			->willReturnArgument(0);
 
 		$client = new Client(
-			$this->cryptographyService,
+			$cryptographyService,
 			$this->configuration,
-			$this->soapClientDriver
+			$soapClientDriver
 		);
 
 		$receipt = $this->getTestReceipt();

@@ -6,11 +6,12 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
+use const SOAP_1_1;
 
 class GuzzleSoapClientDriverTest extends TestCase
 {
 
-	public function testSend()
+	public function testSend(): void
 	{
 		$requestData = 'fooData';
 		$responseData = 'responseData';

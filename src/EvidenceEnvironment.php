@@ -7,8 +7,8 @@ use Consistence\Enum\Enum;
 class EvidenceEnvironment extends Enum
 {
 
-	const PLAYGROUND = 'playground';
-	const PRODUCTION = 'production';
+	public const PLAYGROUND = 'playground';
+	public const PRODUCTION = 'production';
 
 	public function getWsdlPath(): string
 	{

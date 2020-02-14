@@ -12,10 +12,10 @@ use function base64_encode;
 class CryptographyServiceTest extends TestCase
 {
 
-	const EXPECTED_PKP = 'hdBqjqCTaEfJ6JI06H+c4OLvRGtntcwLlG0fucEkla++g9RLxP55jYlPLFf6Sdpm5jPC+hpBHry98zsPBlbwkcFiWdmgT2VBCtXxrwfRmJQOHNRdWhItDsHC4p45G+KmtC4uJCFAqFNL+E999wevPaS6Q02WktmvWI5+XUZnN75hR+G94oznpJS8T140850/FsYDlvPw0ZVWJwDMBzVrOWWxPSN3SBwa40TjD3dVIMlMC1Bo0NccnFp0y7GxNMSfIzDhF5R4S2Rmawe85znZ0PiHXMkPDhXLLpPx1pNiMsTwfeoEnhEMSU/PjjmLpbUzaRfLwZzgf+7Bl0ZX+/lsqA==';
-	const EXPECTED_BKP = 'F049C3F1-165CDCDA-2E35BC3A-FCB5C660-4B84D0B7';
+	private const EXPECTED_PKP = 'hdBqjqCTaEfJ6JI06H+c4OLvRGtntcwLlG0fucEkla++g9RLxP55jYlPLFf6Sdpm5jPC+hpBHry98zsPBlbwkcFiWdmgT2VBCtXxrwfRmJQOHNRdWhItDsHC4p45G+KmtC4uJCFAqFNL+E999wevPaS6Q02WktmvWI5+XUZnN75hR+G94oznpJS8T140850/FsYDlvPw0ZVWJwDMBzVrOWWxPSN3SBwa40TjD3dVIMlMC1Bo0NccnFp0y7GxNMSfIzDhF5R4S2Rmawe85znZ0PiHXMkPDhXLLpPx1pNiMsTwfeoEnhEMSU/PjjmLpbUzaRfLwZzgf+7Bl0ZX+/lsqA==';
+	private const EXPECTED_BKP = 'F049C3F1-165CDCDA-2E35BC3A-FCB5C660-4B84D0B7';
 
-	public function testGetCodes()
+	public function testGetCodes(): void
 	{
 		$data = $this->getReceiptData();
 		$crypto = new CryptographyService(__DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.key', __DIR__ . '/../../../cert/EET_CA1_Playground-CZ00000019.pub');
@@ -26,7 +26,7 @@ class CryptographyServiceTest extends TestCase
 		self::assertSame(self::EXPECTED_BKP, $crypto->getBkpCode($pkpCode));
 	}
 
-	public function testExceptions()
+	public function testExceptions(): void
 	{
 		$cryptoService = new CryptographyService(
 			__DIR__ . '/invalid-certificate.pem',
@@ -45,7 +45,7 @@ class CryptographyServiceTest extends TestCase
 	/**
 	 * @runInSeparateProcess
 	 */
-	public function testExceptions2()
+	public function testExceptions2(): void
 	{
 		include __DIR__ . '/OpenSslFunctionsMock.php';
 
@@ -63,7 +63,7 @@ class CryptographyServiceTest extends TestCase
 		}
 	}
 
-	public function testWSESignatureWithoutPrivateKeyPassword()
+	public function testWSESignatureWithoutPrivateKeyPassword(): void
 	{
 		$request = $this->getRequestData();
 		$crypto = new CryptographyService(
@@ -74,7 +74,7 @@ class CryptographyServiceTest extends TestCase
 		$this->assertNotEmpty($crypto->addWSESignature($request));
 	}
 
-	public function testWSESignatureWithPrivateKeyPassword()
+	public function testWSESignatureWithPrivateKeyPassword(): void
 	{
 		$request = $this->getRequestData();
 		$crypto = new CryptographyService(
@@ -86,7 +86,7 @@ class CryptographyServiceTest extends TestCase
 		$this->assertNotEmpty($crypto->addWSESignature($request));
 	}
 
-	public function testWSESignatureWithInvalidPrivateKeyPassword()
+	public function testWSESignatureWithInvalidPrivateKeyPassword(): void
 	{
 		$request = $this->getRequestData();
 		$crypto = new CryptographyService(
@@ -100,6 +100,9 @@ class CryptographyServiceTest extends TestCase
 		$crypto->addWSESignature($request);
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	private function getReceiptData(): array
 	{
 		return [
@@ -127,7 +130,7 @@ class CryptographyServiceTest extends TestCase
 		}, array_keys($data));
 		$replacements = array_values($data);
 
-		return preg_replace($patterns, $replacements, $requestTemplate);
+		return (string) preg_replace($patterns, $replacements, $requestTemplate);
 	}
 
 }

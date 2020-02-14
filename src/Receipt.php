@@ -12,7 +12,7 @@ class Receipt
 	/**
 	 * XML uuid_zpravy
 	 *
-	 * @var \Ramsey\Uuid\UuidInterface
+	 * @var UuidInterface
 	 */
 	private $uuid;
 
@@ -40,7 +40,7 @@ class Receipt
 	/**
 	 * XML dat_trzby
 	 *
-	 * @var \DateTimeImmutable
+	 * @var DateTimeImmutable
 	 */
 	private $receiptTime;
 
@@ -144,23 +144,23 @@ class Receipt
 
 	public function __construct(
 		bool $firstSend,
-		string $delegatedVatId = null,
+		?string $delegatedVatId,
 		string $receiptNumber,
 		DateTimeImmutable $receiptTime,
 		int $totalPrice = 0,
-		int $priceZeroVat = null,
-		int $priceStandardVat = null,
-		int $vatStandard = null,
-		int $priceFirstReducedVat = null,
-		int $vatFirstReduced = null,
-		int $priceSecondReducedVat = null,
-		int $vatSecondReduced = null,
-		int $priceTravelService = null,
-		int $priceUsedGoodsStandardVat = null,
-		int $priceUsedGoodsFirstReducedVat = null,
-		int $priceUsedGoodsSecondReducedVat = null,
-		int $priceSubsequentSettlement = null,
-		int $priceUsedSubsequentSettlement = null
+		?int $priceZeroVat = null,
+		?int $priceStandardVat = null,
+		?int $vatStandard = null,
+		?int $priceFirstReducedVat = null,
+		?int $vatFirstReduced = null,
+		?int $priceSecondReducedVat = null,
+		?int $vatSecondReduced = null,
+		?int $priceTravelService = null,
+		?int $priceUsedGoodsStandardVat = null,
+		?int $priceUsedGoodsFirstReducedVat = null,
+		?int $priceUsedGoodsSecondReducedVat = null,
+		?int $priceSubsequentSettlement = null,
+		?int $priceUsedSubsequentSettlement = null
 	)
 	{
 		$this->uuid = Uuid::uuid4();
@@ -194,10 +194,7 @@ class Receipt
 		return $this->firstSend;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getDelegatedVatId()
+	public function getDelegatedVatId(): ?string
 	{
 		return $this->delegatedVatId;
 	}
@@ -217,106 +214,67 @@ class Receipt
 		return $this->totalPrice;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getPriceZeroVat()
+	public function getPriceZeroVat(): ?int
 	{
 		return $this->priceZeroVat;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getPriceStandardVat()
+	public function getPriceStandardVat(): ?int
 	{
 		return $this->priceStandardVat;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getVatStandard()
+	public function getVatStandard(): ?int
 	{
 		return $this->vatStandard;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getPriceFirstReducedVat()
+	public function getPriceFirstReducedVat(): ?int
 	{
 		return $this->priceFirstReducedVat;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getVatFirstReduced()
+	public function getVatFirstReduced(): ?int
 	{
 		return $this->vatFirstReduced;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getPriceSecondReducedVat()
+	public function getPriceSecondReducedVat(): ?int
 	{
 		return $this->priceSecondReducedVat;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getVatSecondReduced()
+	public function getVatSecondReduced(): ?int
 	{
 		return $this->vatSecondReduced;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getPriceTravelService()
+	public function getPriceTravelService(): ?int
 	{
 		return $this->priceTravelService;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getPriceUsedGoodsStandardVat()
+	public function getPriceUsedGoodsStandardVat(): ?int
 	{
 		return $this->priceUsedGoodsStandardVat;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getPriceUsedGoodsFirstReducedVat()
+	public function getPriceUsedGoodsFirstReducedVat(): ?int
 	{
 		return $this->priceUsedGoodsFirstReducedVat;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getPriceUsedGoodsSecondReducedVat()
+	public function getPriceUsedGoodsSecondReducedVat(): ?int
 	{
 		return $this->priceUsedGoodsSecondReducedVat;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getPriceForSubsequentSettlement()
+	public function getPriceForSubsequentSettlement(): ?int
 	{
 		return $this->priceForSubsequentSettlement;
 	}
 
-	/**
-	 * @return int|null
-	 */
-	public function getPriceUsedSubsequentSettlement()
+	public function getPriceUsedSubsequentSettlement(): ?int
 	{
 		return $this->priceUsedSubsequentSettlement;
 	}
