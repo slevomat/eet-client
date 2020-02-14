@@ -1,26 +1,154 @@
+os: linux
+dist: xenial
 language: php
 
-php:
-  - 7.2
-  - 7.3
-  - 7.4snapshot
-
-env:
-  - # default environment without variables
-  - COMPOSER_DEPENDENCIES_OPTIONS="--prefer-lowest --prefer-stable"
-
-matrix:
-  fast_finish: true
-  allow_failures:
-    - php: nightly
+git:
+  depth: 1
 
 before_script:
-  - composer self-update
+  - if [ "${DEPENDENCIES}" = "lowest" ]; then travis_retry composer update --prefer-lowest --prefer-dist --no-interaction --no-progress; fi;
+  - if [ "${DEPENDENCIES}" = "highest" ]; then travis_retry composer update --no-interaction --no-progress; fi;
 
-script:
-  - composer update --no-interaction --prefer-source $COMPOSER_DEPENDENCIES_OPTIONS
-  - vendor/bin/phing
+jobs:
+  include:
+    - stage: Lint
+      php: 7.2
+      env: DEPENDENCIES=highest
+      script: vendor/bin/phing check-phplint
 
-after_script:
-  - if [[ $TRAVIS_PHP_VERSION = '7.2' && $COMPOSER_DEPENDENCIES_OPTIONS = '' ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-  - if [[ $TRAVIS_PHP_VERSION = '7.2' && $COMPOSER_DEPENDENCIES_OPTIONS = '' ]]; then php ocular.phar code-coverage:upload --format=php-clover build/log/clover.xml; fi
+    - stage: Lint
+      php: 7.3
+      env: DEPENDENCIES=highest
+      script: vendor/bin/phing check-phplint
+
+    - stage: Lint
+      php: 7.4
+      env: DEPENDENCIES=highest
+      script: vendor/bin/phing check-phplint
+
+    - stage: Tests
+      php: 7.2
+      env: DEPENDENCIES=lowest
+      script: vendor/bin/phing check-tests
+
+    - stage: Tests
+      php: 7.2
+      env: DEPENDENCIES=highest
+      script: vendor/bin/phing check-tests
+
+    - stage: Tests
+      os: windows
+      dist: 1803-containers
+      language: sh # No PHP currently
+      env: PHP_VERSION=7.2.23 DEPENDENCIES=lowest
+      install:
+        - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
+        - choco install composer --ia "/DEV=C:\tools\php"
+        - echo "extension=soap" >> /c/tools/php/php.ini
+        - export PATH=/c/tools/php:$PATH
+      script: vendor/bin/phing check-tests
+
+    - stage: Tests
+      os: windows
+      dist: 1803-containers
+      language: sh # No PHP currently
+      env: PHP_VERSION=7.2.23 DEPENDENCIES=highest
+      install:
+        - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
+        - choco install composer --ia "/DEV=C:\tools\php"
+        - echo "extension=soap" >> /c/tools/php/php.ini
+        - export PATH=/c/tools/php:$PATH
+      script: vendor/bin/phing check-tests
+
+    - stage: Tests
+      php: 7.3
+      env: DEPENDENCIES=lowest
+      script: vendor/bin/phing check-tests
+
+    - stage: Tests
+      php: 7.3
+      env: DEPENDENCIES=highest
+      script: vendor/bin/phing check-tests
+
+    - stage: Tests
+      os: windows
+      dist: 1803-containers
+      language: sh # No PHP currently
+      env: PHP_VERSION=7.3.10 DEPENDENCIES=lowest
+      install:
+        - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
+        - choco install composer --ia "/DEV=C:\tools\php"
+        - echo "extension=soap" >> /c/tools/php/php.ini
+        - export PATH=/c/tools/php:$PATH
+      script: vendor/bin/phing check-tests
+
+    - stage: Tests
+      os: windows
+      dist: 1803-containers
+      language: sh # No PHP currently
+      env: PHP_VERSION=7.3.10 DEPENDENCIES=highest
+      install:
+        - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
+        - choco install composer --ia "/DEV=C:\tools\php"
+        - echo "extension=soap" >> /c/tools/php/php.ini
+        - export PATH=/c/tools/php:$PATH
+      script: vendor/bin/phing check-tests
+    - stage: Tests
+      os: windows
+      dist: 1803-containers
+      language: sh # No PHP currently
+      env: PHP_VERSION=7.4.2 DEPENDENCIES=lowest
+      install:
+        - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
+        - choco install composer --ia "/DEV=C:\tools\php"
+        - echo "extension=soap" >> /c/tools/php/php.ini
+        - export PATH=/c/tools/php:$PATH
+      script: vendor/bin/phing check-tests
+
+    - stage: Tests
+      os: windows
+      dist: 1803-containers
+      language: sh # No PHP currently
+      env: PHP_VERSION=7.4.2 DEPENDENCIES=highest
+      install:
+        - choco install php --version=${PHP_VERSION} --package-parameters="/InstallDir:c:\tools\php"
+        - choco install composer --ia "/DEV=C:\tools\php"
+        - echo "extension=soap" >> /c/tools/php/php.ini
+        - export PATH=/c/tools/php:$PATH
+      script: vendor/bin/phing check-tests
+
+    - stage: Tests
+      php: 7.4
+      env: DEPENDENCIES=lowest
+      script: vendor/bin/phing check-tests
+
+    - stage: Tests
+      php: 7.4
+      env: DEPENDENCIES=highest
+      script: vendor/bin/phing check-tests
+
+    - stage: Coding standard
+      php: 7.4
+      env: DEPENDENCIES=highest
+      script: vendor/bin/phing check-phpcs
+
+    - stage: Static analysis
+      php: 7.4
+      env: DEPENDENCIES=highest
+      script: vendor/bin/phing check-phpstan
+
+    - stage: Code coverage
+      php: 7.4
+      env: DEPENDENCIES=highest
+      install:
+        - wget https://scrutinizer-ci.com/ocular.phar;
+      script:
+        - vendor/bin/phing check-tests
+        - php ocular.phar code-coverage:upload --format=php-clover build/log/clover.xml
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+notifications:
+  email: false
