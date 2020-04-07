@@ -4,9 +4,9 @@ namespace SlevomatEET\Cryptography;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
 use SlevomatEET\Formatter;
+use Throwable;
 use function base64_encode;
 
 class CryptographyServiceTest extends TestCase
@@ -37,7 +37,7 @@ class CryptographyServiceTest extends TestCase
 	 * @param string $publicKeyPath
 	 * @param string $expectedExceptionType
 	 *
-	 * @phpstan-param class-string<\Throwable> $expectedExceptionType
+	 * @phpstan-param class-string<Throwable> $expectedExceptionType
 	 */
 	public function testInvalidKeyPaths(string $privateKeyPath, string $publicKeyPath, string $expectedExceptionType): void
 	{
@@ -111,7 +111,7 @@ class CryptographyServiceTest extends TestCase
 		$request = $this->getRequestData();
 		$crypto = $this->createCryptographyServiceWithPassword('invalid');
 
-		$this->expectException(Error::class);
+		$this->expectError();
 		$this->expectExceptionMessage('openssl_sign(): supplied key param cannot be coerced into a private key');
 		$crypto->addWSESignature($request);
 	}
