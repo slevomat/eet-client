@@ -21,7 +21,7 @@
 		"ext-openssl": "*",
 		"ext-soap": "*",
 		"consistence/consistence": "^2.0.0",
-		"ramsey/uuid": "^3.5",
+		"ramsey/uuid": "^3.5 || ^4.0",
 		"robrichards/wse-php": "^2.0"
 	},
 	"require-dev": {
