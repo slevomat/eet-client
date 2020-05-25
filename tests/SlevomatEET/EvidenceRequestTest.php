@@ -13,7 +13,7 @@ class EvidenceRequestTest extends TestCase
 	/** @var Configuration */
 	private $configuration;
 
-	public function setUp(): void
+	protected function setUp(): void
 	{
 		$this->configuration = new Configuration('CZ00000019', '273', '/5546/RO24', EvidenceEnvironment::get(EvidenceEnvironment::PLAYGROUND), true);
 	}
