@@ -112,7 +112,7 @@ class CryptographyServiceTest extends TestCase
 		$crypto = $this->createCryptographyServiceWithPassword('invalid');
 
 		$this->expectError();
-		$this->expectExceptionMessage('openssl_sign(): supplied key param cannot be coerced into a private key');
+		$this->expectDeprecationMessageMatches('~openssl_sign\(\): supplied key param cannot be coerced into a private key~i');
 		$crypto->addWSESignature($request);
 	}
 
