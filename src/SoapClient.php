@@ -46,7 +46,7 @@ class SoapClient extends \SoapClient
 	 * @param string $location
 	 * @param string $action
 	 * @param int $version
-	 * @param int $oneWay
+	 * @param bool|int $oneWay
 	 * @return string|null
 	 */
 	public function __doRequest($request, $location, $action, $version, $oneWay = 0): ?string
@@ -54,7 +54,7 @@ class SoapClient extends \SoapClient
 		$signedRequest = $this->cryptoService->addWSESignature($request);
 		$response = $this->clientDriver->send($signedRequest, $location, $action, $version);
 
-		if ($oneWay === 1) {
+		if ($oneWay) {
 			return null;
 		}
 		return $response;
