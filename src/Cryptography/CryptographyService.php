@@ -7,7 +7,7 @@ use RobRichards\WsePhp\WSSESoap;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use RobRichards\XMLSecLibs\XMLSecurityKey;
 use const OPENSSL_ALGO_SHA256;
-use const PHP_MAJOR_VERSION;
+use const PHP_VERSION_ID;
 use function is_file;
 
 class CryptographyService
@@ -65,7 +65,8 @@ class CryptographyService
 		if (!$ok) {
 			throw new SigningFailedException($values);
 		}
-		if (PHP_MAJOR_VERSION < 8) {
+		if (PHP_VERSION_ID < 80000) {
+			// phpcs:ignore Generic.PHP.DeprecatedFunctions
 			openssl_free_key($privateKeyId);
 		}
 
@@ -106,7 +107,8 @@ class CryptographyService
 		if ($publicKeyResource === false) {
 			throw new InvalidPublicKeyException($this->publicKeyFile, (string) openssl_error_string());
 		}
-		if (PHP_MAJOR_VERSION < 8) {
+		if (PHP_VERSION_ID < 80000) {
+			// phpcs:ignore Generic.PHP.DeprecatedFunctions
 			openssl_free_key($publicKeyResource);
 		}
 		$this->publicKeyVerified = true;
