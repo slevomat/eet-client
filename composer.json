@@ -27,7 +27,6 @@
 	},
 	"require-dev": {
 		"composer/ca-bundle": "^1.0",
-		"consistence/coding-standard": "^3.10.1",
 		"guzzlehttp/guzzle": "^6.3.3 || ^7.0.1",
 		"phing/phing": "^2.16.3",
 		"php-parallel-lint/php-parallel-lint": "^1.2",

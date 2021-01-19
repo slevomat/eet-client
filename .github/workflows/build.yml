@@ -46,7 +46,7 @@ jobs:
 
       - name: "Install dependencies PHP 8"
         if: matrix.php-version == '8.0'
-        run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-req=php"
+        run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
 
       - name: "Lint"
         run: "vendor/bin/phing check-phplint"
@@ -118,7 +118,7 @@ jobs:
 
       - name: "Install dependencies PHP 8"
         if: matrix.php-version == '8.0'
-        run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-req=php"
+        run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
 
       - name: "PHPStan"
         run: "vendor/bin/phing check-phpstan"
@@ -167,15 +167,15 @@ jobs:
 
       - name: "Install lowest dependencies PHP 8"
         if: ${{ matrix.php-version == '8.0' && matrix.dependencies == 'lowest' }}
-        run: "composer update  --prefer-lowest --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-req=php"
+        run: "composer update  --prefer-lowest --prefer-dist --no-interaction --no-progress --no-suggest"
 
       - name: "Require higher phpunit on PHP 8"
         if: ${{ matrix.php-version == '8.0' && matrix.dependencies == 'lowest' }}
-        run: "composer require phpunit/phpunit:^9.3.7 --update-with-dependencies --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-req=php"
+        run: "composer require phpunit/phpunit:^9.3.7 --update-with-dependencies --prefer-dist --no-interaction --no-progress --no-suggest"
 
       - name: "Install highest dependencies PHP 8"
         if: ${{ matrix.php-version == '8.0' && matrix.dependencies == 'highest' }}
-        run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest --ignore-platform-req=php"
+        run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
 
       - name: "Tests"
         run: "vendor/bin/phing check-tests"
