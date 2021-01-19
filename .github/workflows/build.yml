@@ -41,12 +41,8 @@ jobs:
           restore-keys: "php-${{ matrix.php-version }}-composer-"
 
       - name: "Install dependencies"
-        if: matrix.php-version != '8.0'
         run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
 
-      - name: "Install dependencies PHP 8"
-        if: matrix.php-version == '8.0'
-        run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
 
       - name: "Lint"
         run: "vendor/bin/phing check-phplint"
@@ -113,11 +109,6 @@ jobs:
           restore-keys: "php-${{ matrix.php-version }}-composer-"
 
       - name: "Install dependencies"
-        if: matrix.php-version != '8.0'
-        run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
-
-      - name: "Install dependencies PHP 8"
-        if: matrix.php-version == '8.0'
         run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
 
       - name: "PHPStan"
@@ -158,23 +149,11 @@ jobs:
           restore-keys: "php-${{ matrix.php-version }}-composer-"
 
       - name: "Install lowest dependencies"
-        if: ${{ matrix.php-version != '8.0' && matrix.dependencies == 'lowest' }}
+        if: ${{ matrix.dependencies == 'lowest' }}
         run: "composer update --prefer-lowest --prefer-dist --no-interaction --no-progress --no-suggest"
 
       - name: "Install highest dependencies"
-        if: ${{ matrix.php-version != '8.0' && matrix.dependencies == 'highest' }}
-        run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
-
-      - name: "Install lowest dependencies PHP 8"
-        if: ${{ matrix.php-version == '8.0' && matrix.dependencies == 'lowest' }}
-        run: "composer update  --prefer-lowest --prefer-dist --no-interaction --no-progress --no-suggest"
-
-      - name: "Require higher phpunit on PHP 8"
-        if: ${{ matrix.php-version == '8.0' && matrix.dependencies == 'lowest' }}
-        run: "composer require phpunit/phpunit:^9.3.7 --update-with-dependencies --prefer-dist --no-interaction --no-progress --no-suggest"
-
-      - name: "Install highest dependencies PHP 8"
-        if: ${{ matrix.php-version == '8.0' && matrix.dependencies == 'highest' }}
+        if: ${{ matrix.dependencies == 'highest' }}
         run: "composer update --prefer-dist --no-interaction --no-progress --no-suggest"
 
       - name: "Tests"
