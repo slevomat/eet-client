@@ -21,9 +21,9 @@
 		"ext-dom": "*",
 		"ext-openssl": "*",
 		"ext-soap": "*",
-		"consistence/consistence": "^2.0.1",
 		"ramsey/uuid": "^3.5 || ^4.0",
-		"robrichards/wse-php": "^2.0"
+		"robrichards/wse-php": "^2.0",
+		"slevomat/consistence": "^2.1.0"
 	},
 	"require-dev": {
 		"composer/ca-bundle": "^1.0",
