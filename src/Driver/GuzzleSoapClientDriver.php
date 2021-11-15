@@ -35,7 +35,7 @@ class GuzzleSoapClientDriver implements SoapClientDriver
 			'User-Agent' => self::HEADER_USER_AGENT,
 			'Content-Type' => sprintf('%s; charset=utf-8', $soapVersion === 2 ? 'application/soap+xml' : 'text/xml'),
 			'SOAPAction' => $action,
-			'Content-Length' => strlen($request),
+			'Content-Length' => (string) strlen($request),
 		];
 
 		$request = new Request('POST', $location, $headers, $request);

@@ -46,7 +46,7 @@ class CryptographyServiceTest extends TestCase
 	}
 
 	/**
-	 * @return array[]
+	 * @return mixed[][]
 	 */
 	public function provideInvalidKeyPaths(): array
 	{
